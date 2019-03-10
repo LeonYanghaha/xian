@@ -1,0 +1,21 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: com
+  datasource:
+    #shujuyuan
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456qQ
+    url: jdbc:mysql://localhost:3306/xian?useUnicode=true&characterEncoding=utf-8
+
+
+#jiazai mybatis peizhiwenjian
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  config-location: classpath:mapper/config/sqlMapConfig.xml
+  type-aliases-package: com.xian.demo.entity
+  table:
+    auto: create
