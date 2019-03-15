@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Date;
 
 @RestController
@@ -21,10 +20,10 @@ public class UserRouter {
     private UserService userService;
     private Result result;
 
-    @RequestMapping(value = "changeheadimage",method = RequestMethod.POST)
+    @RequestMapping(value = "changeHeadImage",method = RequestMethod.POST)
     public Result changeHeadImage(){
         String str = userService.changeHeadImage();
-        result = new Result((short)0,"success", null);
+        result =  Result.ok(str);
         return result;
     }
 
@@ -40,12 +39,10 @@ public class UserRouter {
         User user = userService.login(un,pw);
         result = new Result();
         if(user==null){
-            result.setCodeAndMsg((short)0,"用户名或密码错误");
+            return Result.errorMsg("用户名或密码错误");
         }else{
-            result.setCodeAndMsg((short)0,"success");
-            result.setData(user);
+            return Result.ok(user);
         }
-        return result;
     }
     /**
      * @describe 注册路由
@@ -59,7 +56,7 @@ public class UserRouter {
 
         result = new Result();
         if(!userService.checkUn(un)){
-            return new Result((short)-1,"用户名已经被使用",null);
+            return  Result.errorMsg("用户名已经被使用");
         }
         User user = new User();
         user.setPw(pw);
@@ -69,8 +66,11 @@ public class UserRouter {
         user.setId(Common.getUserId());
         user.setRegisterTime(new Date());
         Integer status = userService.register(user);
-
-        return new Result(status.shortValue(),"success",user);
+        if(status == 1){
+            return Result.ok(user);
+        }else{
+            return Result.errorMsg("未知错误");
+        }
     }
 
 
@@ -79,15 +79,13 @@ public class UserRouter {
      * @param {String}
      * @return {String}
      */
-    @RequestMapping(value = "checkun",method = RequestMethod.POST)
+    @RequestMapping(value = "checkUn",method = RequestMethod.POST)
     public Result checkUn(@Param(value = "un") String un){
         result = new Result();
         if(userService.checkUn(un)){
-            result.setCodeAndMsg((short)0,"ok");
+            return  Result.ok("ok");
         }else{
-            result.setCodeAndMsg((short)-1,"用户名已经被使用");
+            return Result.errorMsg("用户名已经被使用");
         }
-        return result;
     }
-
 }

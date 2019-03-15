@@ -1,5 +1,8 @@
 package com.xian.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,10 +12,13 @@ public class User implements Serializable {
     private Integer id;
     private String un;
     private String phone;
+    @JsonIgnore
     private String pw;
     private String headImage;
     private Short status;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     private Date registerTime;
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     private Date lastLoginTime;
 
     public User(Integer id, String un, String phone, String pw, String headImage, Short status, Date registerTime, Date lastLoginTime) {

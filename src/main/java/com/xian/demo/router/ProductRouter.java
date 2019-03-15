@@ -16,23 +16,21 @@ public class ProductRouter {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = "findall",method = RequestMethod.GET)
+    @RequestMapping(value = "findAll",method = RequestMethod.GET)
     public Result findAll(){
-        return new Result((short)0,"success",productService.findAll());
+        return Result.ok(productService.findAll());
     }
     @RequestMapping(value = "find/{id}",method = RequestMethod.GET)
     public Result findProductById(@PathVariable(value = "id") Integer id){
 
         if(id<10000000 || id>99999999){
-            return new Result((short)-1,"参数错误",null);
+            return Result.errorMsg("参数错误");
         }
         Product product = productService.findProductById(id);
         if(product==null){
-            return new Result((short)-1,"id 错误",null);
+            return Result.errorMsg("id 错误");
         }else{
-            return new Result((short)0,"success",product);
+            return Result.ok(product);
         }
-
-
     }
 }

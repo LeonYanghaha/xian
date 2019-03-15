@@ -19,3 +19,6 @@ mybatis:
   type-aliases-package: com.xian.demo.entity
   table:
     auto: create
+
+server:
+  port: 8081
