@@ -10,4 +10,5 @@ import java.util.List;
 public interface ProductMapper {
     List<Product> findAll();
     Product findProductById(@Param("id") Integer pid);
+    Product findProductByType(@Param("type") String type);
 }
