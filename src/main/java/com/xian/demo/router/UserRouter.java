@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 @RestController
@@ -34,13 +37,35 @@ public class UserRouter {
      */
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public Result login(@RequestParam(value = "un") String un,
-                        @RequestParam(value = "pw") String pw){
+                        @RequestParam(value = "pw") String pw,
+                        HttpServletRequest request){
+
+
+
+        HttpSession session = request.getSession();
+//        if (session.getAttribute("user") == null) {
+//            session.setAttribute("user", "zhangsan");
+//            System.out.println("不存在session");
+//        } else {
+//            System.out.println("存在session");
+//        }
+//        List<User> list = userService.queryListByPage(query);
+//        int queryCount = userService.queryCount(query);
+//        PageResultBean<User> pageResultBean = new PageResultBean<User>();
+//        pageResultBean.setData(list);
+//        pageResultBean.setPageNumber(query.getPageNumber());
+//        pageResultBean.setPageSize(query.getPageSize());
+//        pageResultBean.setTotalCount(queryCount);
+
+
+
 
         User user = userService.login(un,pw);
         result = new Result();
         if(user==null){
             return Result.errorMsg("用户名或密码错误");
         }else{
+            session.setAttribute(user.getId().toString(), user);
             return Result.ok(user);
         }
     }

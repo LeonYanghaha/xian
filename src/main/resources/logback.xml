@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false">
+
+    <!--设置logPath的变量，变量的值：/Webapp/springboot-mybatis-demo/log -->
+    <property name="logPath" value="log"/>
+    <property name="system" value="/xian_log"/>
+
+    <!--设置上下文监听-->
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date|%thread|%5level|%logger{50}|%L|%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--RollingFileAppender:滚动文件-->
+    <appender name="errorLog"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--log文件名称-->
+        <file>${logPath}/${system}_error.log</file>
+        <!---->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/${system}_error.%d{yyyy-MM-dd}.%i.log.zip
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!--log文件最大值-->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--log文件保留最长时间-->
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date|%thread|%5level|%logger{50}|%L|%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="springbootLog"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/${system}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/${system}_springbootLog.%d{yyyy-MM-dd}.%i.log.zip
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date|%thread|%5level|%logger{50}|%L|%msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!--使用上面定义的appender-->
+    <root level="INFO">
+        <appender-ref ref="springbootLog"/>
+        <appender-ref ref="errorLog"/>
+        <appender-ref ref="console"/>
+    </root>
+
+</configuration>

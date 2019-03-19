@@ -26,9 +26,11 @@ public class Product {
 //    累计销量
     private Integer sellNumber;
 //    商品图
-    private List<String> imgUrl;
+    private String imgUrl;
 
-    public Product(Integer pid, Double price, String name, String desc, Integer stock, Integer type, Short status, Boolean isRecommend, Date pushTime, Short producerId, Integer sellNumber, List<String> imgUrl) {
+    public Product(Integer pid, Double price, String name, String desc, Integer stock, Integer type,
+                   Short status, Boolean isRecommend, Date pushTime, Short producerId,
+                   Integer sellNumber, String imgUrl) {
         this.pid = pid;
         this.price = price;
         this.name = name;
@@ -152,11 +154,11 @@ public class Product {
         this.sellNumber = sellNumber;
     }
 
-    public List<String> getImgUrl() {
+    public String getImgUrl() {
         return imgUrl;
     }
 
-    public void setImgUrl(List<String> imgUrl) {
+    public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
 }

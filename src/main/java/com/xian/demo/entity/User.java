@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.validation.constraints.NotNull;
 
 public class User implements Serializable {
 
@@ -13,6 +14,7 @@ public class User implements Serializable {
     private String un;
     private String phone;
     @JsonIgnore
+    @NotNull(message = "pw is null")
     private String pw;
     private String headImage;
     private Short status;

@@ -12,22 +12,23 @@ spring:
     url: jdbc:mysql://localhost:3306/xian?useUnicode=true&characterEncoding=utf-8
   resources:
     static-locations:classpath:/static/**
-
-
-#  spring.mvc.static-path-pattern=/static/**
+  session:
+    store-type: redis
+#    timeout: 2000ms
+    host: 127.0.0.1
+    port: 6379
 
 #jiazai mybatis peizhiwenjian
-mybatis:
-  mapper-locations: classpath:mapper/*Mapper.xml
-  config-location: classpath:mapper/config/sqlMapConfig.xml
-  type-aliases-package: com.xian.demo.entity
-  table:
-    auto: create
+#mybatis:
+#  mapperas-locations: classpath:mapperas/*Mapper.xml
+#  config-location: classpath:mapperas/config/sqlMapConfig.xml
+#  type-aliases-package: com.xian.demo.entity
+#  table:
+#    auto: create
 
 server:
   port: 8888
 
-
-com:
-  xian:
-    imgHostUrl:'http://127.0.0.1:8888/img/'
+# logger
+logging:
+  config: classpath:logback.xml

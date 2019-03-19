@@ -16,10 +16,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<User> findAllUser() {
-        List<User> list = userMapper.findAll();
-        return list;
-    }
+//    public List<User> findAllUser() {
+//        List<User> list = userMapper.findAll();
+//        return list;
+//    }
 
     public Boolean checkUn(String un){
         User user = userMapper.checkUn(un);

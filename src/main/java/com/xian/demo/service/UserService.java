@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> findAllUser();
+//    List<User> findAllUser();
     User login(String un, String pw);
     Integer register(User user);
     String changeHeadImage();

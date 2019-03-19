@@ -4,10 +4,18 @@
     <select id="findAll" resultType="product">
         SELECT pid, price, name, `desc`, stock, `type`, isRecommend, status, pushTime, producerId, sellNumber, imgUrl
         FROM PRODUCT
+        LIMIT #{param1}
     </select>
     <select id="findProductById" resultType="product">
         SELECT pid, price, name, `desc`, stock, `type`, isRecommend, status, pushTime, producerId, sellNumber, imgUrl
         FROM PRODUCT
         WHERE pid=#{param1} LIMIT 1
     </select>
+
+    <insert id="saveProduct">
+        INSERT INTO PRODUCT
+        (pid, price, name, `desc`, stock, `type`, isRecommend, status, pushTime, producerId, sellNumber, imgUrl)
+        VALUES(#{param1}, #{param5}, #{param3}, #{param2}, #{param10}, #{param8}, #{param9},
+              #{param12}, #{param7}, #{param6}, #{param11}, #{param4});
+    </insert>
 </mapper>
