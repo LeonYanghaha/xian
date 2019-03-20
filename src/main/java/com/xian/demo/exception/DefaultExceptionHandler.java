@@ -1,4 +1,4 @@
-package com.xian.demo.router.exception;
+package com.xian.demo.exception;
 
 import com.xian.demo.entity.Result;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

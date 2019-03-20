@@ -11,10 +11,11 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer id;
+    @NotNull(message = "用户名不能为空")
     private String un;
     private String phone;
     @JsonIgnore
-    @NotNull(message = "pw is null")
+    @NotNull(message = "密码不能为空")
     private String pw;
     private String headImage;
     private Short status;

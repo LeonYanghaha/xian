@@ -1,4 +1,4 @@
-package com.xian.demo.router.config;
+package com.xian.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

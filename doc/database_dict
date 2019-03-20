@@ -1,0 +1,63 @@
+商品类型表：
+    食品：100000
+        肉类：110000
+        水果：120000
+        水产：130000
+        零食：140000
+        谷物：150000
+        蔬菜：160000
+    衣物：200000
+        男装：210000
+        女装：220000
+        童装：230000
+        鞋帽：240000
+    电器：300000
+        手机：310000
+        家电：320000
+        厨房家电：330000
+
+
+
+INSERT INTO xian.`CREATE` (CNAME, CADDRESS, CDESC) VALUES('蒙牛', '内蒙古', '鲜奶提供商');
+INSERT INTO xian.`CREATE` (CNAME, CADDRESS, CDESC) VALUES('真维斯', '浙江', '时尚女装');
+INSERT INTO xian.`CREATE` (CNAME, CADDRESS, CDESC) VALUES('小米', '北京', '智能手机生产商');
+INSERT INTO xian.`CREATE` (CNAME, CADDRESS, CDESC) VALUES('华为', '深圳', '5G设备');
+INSERT INTO xian.`CREATE` (CNAME, CADDRESS, CDESC) VALUES('海澜之家', '北京', '男装');
+INSERT INTO xian.`CREATE` (CNAME, CADDRESS, CDESC) VALUES('九阳', '广东', '厨房家电');
+INSERT INTO xian.`CREATE` (CNAME, CADDRESS, CDESC) VALUES('三只松鼠', 'china', '零食');
+
+
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(19.9, '蒙牛新鲜牛奶', '来自内蒙古大草原', 1000, 140000, true, 0, NOW(), 1, 200, 'niunai.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(15.9, '伊利酸奶--', '内蒙古大草原', 1000, 140000, true, 0, NOW(), 1, 220, 'niunai.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(18.9, '纯甄', '内蒙古大', 1000, 140000, true, 0, NOW(), 1, 20, 'niunai.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(49.9, '巴旦木', '新疆巴旦木', 10000, 140000, true, 0, NOW(), 7, 200, 'badamu.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(29.9, '核桃', 'hetao', 10000, 140000, true, 0, NOW(), 7, 200, 'badamu.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(19.9, '车厘子', '智利车厘子', 10000, 140000, true, 0, NOW(), 7, 200, 'badamu.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(1999, '小米9', '4800WAI双摄', 10000, 310000, true, 0, NOW(), 3, 100, 'shouji.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(2999, '华为nova4', '华为nova4,--', 10000, 310000, true, 0, NOW(), 4, 190, 'shouji.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(3999, 'oppo r12', '时刻照亮你的美', 10000, 310000, true, 0, NOW(), 3, 100, 'shouji.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(199, 'lenovo', '2400W像素', 10000, 310000, true, 0, NOW(), 3, 130, 'shouji.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(699, 'apple RX', '刘海屏', 10000, 310000, true, 0, NOW(), 3, 10, 'shouji.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(999, '电磁炉', '无辐射  安全快速', 10000, 330000, true, 0, NOW(), 6, 100, 'diancilu.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(3999, '电炒锅', '安全快速', 10000, 330000, true, 0, NOW(), 6, 100, 'dianchaoguo.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(1999, '微波炉', '好用  安全快速', 10000, 330000, true, 0, NOW(), 6, 100, 'weibolu.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(299, '吸尘器', '静音  安全快速', 10000, 320000, true, 0, NOW(), 6, 100, 'xichengqi.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(499, '冰箱', '省电  安全快速', 10000, 330000, true, 0, NOW(), 6, 100, 'bingxiang.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(299, '空调', '动力强劲  安全快速', 10000, 320000, true, 0, NOW(), 6, 100, 'kongtiao.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(499, '洗衣机', '省心好帮手  安全快速', 10000, 320000, true, 0, NOW(), 6, 100, 'xiyiji.jpg');
+
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(456, '男款 外套', '新款2019', 10000, 210000, true, 0, NOW(), 5, 100, 'waitao.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(56, '外套', '新款2019', 10000, 220000, true, 0, NOW(), 5, 90, 'wwaitao.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(46, '裤子', '新款2019', 10000, 210000, true, 0, NOW(), 2, 120, 'kuzi.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(60, '衬衫', '新款2019', 10000, 210000, true, 0, NOW(), 2, 1000, 'chengshan.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(46, '西装', '新款2019', 10000, 210000, true, 0, NOW(), 2, 90, 'xizhuang.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(460, '运动鞋', '新款2019', 10000, 210000, true, 0, NOW(), 5, 20, 'yundongxie.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(956, '速干衣', '新款2019', 10000, 210000, true, 0, NOW(), 5, 80, 'suganyi.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(6, '袜子', '新款2019', 10000, 210000, true, 0, NOW(), 5, 100, 'wazi.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(46, '冲锋衣', '新款2019', 10000, 210000, true, 0, NOW(), 5, 100, 'chongfengyi.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(46, '冲锋衣', '新款2019', 10000, 220000, true, 0, NOW(), 5, 100, 'chongfengyi.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(156, '羽绒服', '新款2019', 10000, 210000, true, 0, NOW(), 5, 34, 'yurongfu.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(256, '马甲', '新款2019', 10000, 210000, true, 0, NOW(), 2, 20, 'majia.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(356, '裙子', '新款2019', 10000, 220000, true, 0, NOW(), 2, 300, 'qunzi.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(560, '妮子', '新款2019', 10000, 220000, true, 0, NOW(), 2, 10, 'nizi.jpg');
+INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(60, '针织衫', '新款2019', 10000, 220000, true, 0, NOW(), 5, 10, 'zhengshishan.jpg');

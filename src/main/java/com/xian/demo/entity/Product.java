@@ -1,7 +1,11 @@
 package com.xian.demo.entity;
 import java.util.Date;
-import java.util.List;
 
+/**
+ * @describe  商品实体类
+ * @param {String}
+ * @return {String}
+ */
 public class Product {
 
     private Integer pid;
@@ -14,7 +18,7 @@ public class Product {
 //    库存
     private Integer stock;
 //    类型
-    private Integer type;
+    private ProductType productType;
 //    状态
     private Short status;
 //   是否推荐
@@ -22,28 +26,11 @@ public class Product {
 //    上架时间
     private Date pushTime;
 //    厂家编号
-    private Short producerId;
+    private Create create;
 //    累计销量
     private Integer sellNumber;
 //    商品图
     private String imgUrl;
-
-    public Product(Integer pid, Double price, String name, String desc, Integer stock, Integer type,
-                   Short status, Boolean isRecommend, Date pushTime, Short producerId,
-                   Integer sellNumber, String imgUrl) {
-        this.pid = pid;
-        this.price = price;
-        this.name = name;
-        this.desc = desc;
-        this.stock = stock;
-        this.type = type;
-        this.status = status;
-        this.isRecommend = isRecommend;
-        this.pushTime = pushTime;
-        this.producerId = producerId;
-        this.sellNumber = sellNumber;
-        this.imgUrl = imgUrl;
-    }
 
     public Product() {
     }
@@ -56,14 +43,29 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", desc='" + desc + '\'' +
                 ", stock=" + stock +
-                ", type=" + type +
+                ", productType=" + productType +
                 ", status=" + status +
                 ", isRecommend=" + isRecommend +
                 ", pushTime=" + pushTime +
-                ", producerId=" + producerId +
+                ", create=" + create +
                 ", sellNumber=" + sellNumber +
-                ", imgUrl=" + imgUrl +
+                ", imgUrl='" + imgUrl + '\'' +
                 '}';
+    }
+
+    public Product(Integer pid, Double price, String name, String desc, Integer stock, ProductType productType, Short status, Boolean isRecommend, Date pushTime, Create create, Integer sellNumber, String imgUrl) {
+        this.pid = pid;
+        this.price = price;
+        this.name = name;
+        this.desc = desc;
+        this.stock = stock;
+        this.productType = productType;
+        this.status = status;
+        this.isRecommend = isRecommend;
+        this.pushTime = pushTime;
+        this.create = create;
+        this.sellNumber = sellNumber;
+        this.imgUrl = imgUrl;
     }
 
     public Integer getPid() {
@@ -106,12 +108,12 @@ public class Product {
         this.stock = stock;
     }
 
-    public Integer getType() {
-        return type;
+    public ProductType getProductType() {
+        return productType;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
     }
 
     public Short getStatus() {
@@ -138,12 +140,12 @@ public class Product {
         this.pushTime = pushTime;
     }
 
-    public Short getProducerId() {
-        return producerId;
+    public Create getCreate() {
+        return create;
     }
 
-    public void setProducerId(Short producerId) {
-        this.producerId = producerId;
+    public void setCreate(Create create) {
+        this.create = create;
     }
 
     public Integer getSellNumber() {

@@ -3,16 +3,16 @@ package com.xian.demo.router;
 import com.xian.demo.entity.Result;
 import com.xian.demo.entity.User;
 import com.xian.demo.service.UserService;
-import com.xian.demo.util.Common;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 @RestController
@@ -24,9 +24,9 @@ public class UserRouter {
     private Result result;
 
     @RequestMapping(value = "changeHeadImage",method = RequestMethod.POST)
-    public Result changeHeadImage(){
-        String str = userService.changeHeadImage();
-        result =  Result.ok(str);
+    public Result changeHeadImage(HttpServletRequest request){
+//        String str = userService.changeHeadImage();
+        result =  Result.ok("ok");
         return result;
     }
 
@@ -40,32 +40,12 @@ public class UserRouter {
                         @RequestParam(value = "pw") String pw,
                         HttpServletRequest request){
 
-
-
-        HttpSession session = request.getSession();
-//        if (session.getAttribute("user") == null) {
-//            session.setAttribute("user", "zhangsan");
-//            System.out.println("不存在session");
-//        } else {
-//            System.out.println("存在session");
-//        }
-//        List<User> list = userService.queryListByPage(query);
-//        int queryCount = userService.queryCount(query);
-//        PageResultBean<User> pageResultBean = new PageResultBean<User>();
-//        pageResultBean.setData(list);
-//        pageResultBean.setPageNumber(query.getPageNumber());
-//        pageResultBean.setPageSize(query.getPageSize());
-//        pageResultBean.setTotalCount(queryCount);
-
-
-
-
         User user = userService.login(un,pw);
         result = new Result();
         if(user==null){
             return Result.errorMsg("用户名或密码错误");
         }else{
-            session.setAttribute(user.getId().toString(), user);
+            request.getSession().setAttribute("currentUser", user);
             return Result.ok(user);
         }
     }
@@ -75,20 +55,17 @@ public class UserRouter {
      * @return {String}
      */
     @RequestMapping(value = "register",method = RequestMethod.POST)
-    public Result register(@RequestParam(value = "un") String un,
-                           @RequestParam(value = "pw") String pw,
-                           @RequestParam(value = "phone") String phone){
+    public Result register (@Validated User user, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return Result.errorMsg(bindingResult.getFieldError().getDefaultMessage());
+        }
 
         result = new Result();
-        if(!userService.checkUn(un)){
+
+        if(!userService.checkUn(user.getUn())){
             return  Result.errorMsg("用户名已经被使用");
         }
-        User user = new User();
-        user.setPw(pw);
-        user.setUn(un);
-        user.setPhone(phone);
-        user.setHeadImage("0.jpg");
-        user.setId(Common.getUserId());
         user.setRegisterTime(new Date());
         Integer status = userService.register(user);
         if(status == 1){

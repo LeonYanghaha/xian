@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 600)
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 6000)
 @SpringBootApplication
 public class XianApplication {
 
@@ -12,5 +12,4 @@ public class XianApplication {
 
         SpringApplication.run(XianApplication.class, args);
     }
-
 }

@@ -44,8 +44,8 @@ public class ProductRouter {
         product.setRecommend(true);
         product.setSellNumber(100);
         product.setStock(2333);
-        product.setType(45);
-        product.setProducerId((short)3);
+//        product.setType(45);
+//        product.setProducerId((short)3);
 
         Integer tempTag = productService.saveProduct(product);
         return Result.ok(tempTag);
