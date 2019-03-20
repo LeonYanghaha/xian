@@ -61,3 +61,66 @@ INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status
 INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(356, '裙子', '新款2019', 10000, 220000, true, 0, NOW(), 2, 300, 'qunzi.jpg');
 INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(560, '妮子', '新款2019', 10000, 220000, true, 0, NOW(), 2, 10, 'nizi.jpg');
 INSERT INTO xian.PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl)VALUES(60, '针织衫', '新款2019', 10000, 220000, true, 0, NOW(), 5, 10, 'zhengshishan.jpg');
+
+
+
+
+INSERT INTO ProductImgList (pid, name) VALUES(1, 'niunai.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(1, 'niunai_1.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(1, 'niunai_2.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(2, 'shouji_1.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(2, 'shouji_2.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(2, 'shouji_3.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(2, 'shouji_4.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(3, 'niunai_1.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(3, 'niunai_2.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(3, 'niunai_3.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(3, 'niunai_4.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(3, 'niunai_5.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(4, 'badamu_1.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(4, 'badamu_2.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(5, 'wazi_1.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(5, 'wazi_2.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(5, 'wazi_3.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(5, 'wazi_4.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(5, 'wazi_5.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(5, 'wazi_6.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(6, 'diancilu_1.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(6, 'diancilu_2.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(6, 'diancilu_3.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(6, 'diancilu_4.jpg');
+INSERT INTO ProductImgList (pid, name) VALUES(6, 'diancilu_5.jpg');
+
+
+// 订单表
+order
+    oid 订单ID
+    uid 用户ID
+    submitTime  下单时间
+    payTime 付款时间
+    pushTIme 发货时间
+    ReceivedTime 收货时间
+    aid  地址ID
+    totalprice  订单总价
+    meta  用户留言
+    status 状态  10  已提交   20 未付款  30 已付款  40 待发货   50 已发货，待收货  60 收货，交易成功  70 超时未付款，关闭  80 用户主动关闭
+
+
+地址表：
+address
+    aid 地址ID
+    uid 用户ID
+    time 添加时间
+    aname 收件人姓名
+    aphone 收件人电话
+    aadderss 详细地址
+    atag 地址标签
+
+
+订单详情表：
+orderdetial:
+    oid 订单表
+    pid 商品表
+    price 商品单价
+    number 数量
+    meta  其他信息

@@ -35,6 +35,9 @@ public class Result {
     public static Result ok(Object data) {
         return new Result(data);
     }
+    public static Result ok(String msg,Object data) {
+        return new Result(msg,data);
+    }
 
     public static Result ok() {
         return new Result(null);
@@ -69,6 +72,11 @@ public class Result {
     public Result(Object data) {
         this.status = 200;
         this.msg = "OK";
+        this.data = data;
+    }
+    public Result(String msg ,Object data) {
+        this.status = 200;
+        this.msg = msg;
         this.data = data;
     }
 

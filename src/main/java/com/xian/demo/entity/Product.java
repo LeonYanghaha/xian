@@ -1,5 +1,6 @@
 package com.xian.demo.entity;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @describe  商品实体类
@@ -30,10 +31,7 @@ public class Product {
 //    累计销量
     private Integer sellNumber;
 //    商品图
-    private String imgUrl;
-
-    public Product() {
-    }
+    private List<ProductImg> productImgList;
 
     @Override
     public String toString() {
@@ -49,11 +47,16 @@ public class Product {
                 ", pushTime=" + pushTime +
                 ", create=" + create +
                 ", sellNumber=" + sellNumber +
-                ", imgUrl='" + imgUrl + '\'' +
+                ", productImgList=" + productImgList +
                 '}';
     }
 
-    public Product(Integer pid, Double price, String name, String desc, Integer stock, ProductType productType, Short status, Boolean isRecommend, Date pushTime, Create create, Integer sellNumber, String imgUrl) {
+    public Product() {
+    }
+
+    public Product(Integer pid, Double price, String name, String desc, Integer stock,
+                   ProductType productType, Short status, Boolean isRecommend, Date pushTime,
+                   Create create, Integer sellNumber, List<ProductImg> productImgList) {
         this.pid = pid;
         this.price = price;
         this.name = name;
@@ -65,7 +68,7 @@ public class Product {
         this.pushTime = pushTime;
         this.create = create;
         this.sellNumber = sellNumber;
-        this.imgUrl = imgUrl;
+        this.productImgList = productImgList;
     }
 
     public Integer getPid() {
@@ -156,11 +159,11 @@ public class Product {
         this.sellNumber = sellNumber;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public List<ProductImg> getProductImgList() {
+        return productImgList;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setProductImgList(List<ProductImg> productImgList) {
+        this.productImgList = productImgList;
     }
 }

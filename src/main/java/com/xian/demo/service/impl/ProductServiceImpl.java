@@ -12,37 +12,34 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
     @Autowired
     private ProductMapper productMapper;
-    private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
-    public Integer saveProduct(Product product){
-        logger.info("saveProduct", product);
-        return productMapper.saveProduct(
-                product.getPid(),
-                product.getDesc(),
-                product.getName(),
-                product.getImgUrl(),
-                product.getPrice(),
-null,
-//                product.getProducerId(),
-                product.getPushTime(),null,
-//                product.getType(),
-                product.getRecommend(),
-                product.getStock(),
-                product.getSellNumber(),
-                product.getStatus()
-        );
+
+    public Integer setProductStockAndSellNumber(Integer pid, Integer number) {
+        return productMapper.setProductStockAndSellNumber(pid, number);
     }
 
+    public Integer getProductStock(Integer pid) {
+        return productMapper.getProductStock(pid).getStock();
+    }
+
+    public Integer saveProduct(Product product){
+        return productMapper.saveProduct(product.getPrice(), product.getName(), product.getDesc(),
+                                         product.getStock(), product.getProductType().getPtype(), product.getRecommend(),
+                                         product.getStatus(), product.getCreate().getCid(),
+                                         product.getSellNumber() );
+    }
     public  Product findProductById(Integer id){
         return productMapper.findProductById(id);
     }
-    public  Product findProductByType(String type){
-            return productMapper.findProductByType(type);
-        }
 
-    public List<Product> findAll(Integer limit){
-        logger.info("saveProduct", limit);
-        return productMapper.findAll(limit);
+    public  List<Product> findProductByType(Integer type , Integer startNo,Integer pageSize){
+            return productMapper.findProductByType(type , startNo, pageSize);
+    }
+
+    public List<Product> findAll(Integer startNo,Integer pageSize){
+        return productMapper.findAll(startNo,pageSize);
     }
 }

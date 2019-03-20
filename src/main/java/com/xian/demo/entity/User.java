@@ -24,7 +24,8 @@ public class User implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     private Date lastLoginTime;
 
-    public User(Integer id, String un, String phone, String pw, String headImage, Short status, Date registerTime, Date lastLoginTime) {
+    public User(Integer id, String un, String phone, String pw, String headImage,
+                Short status, Date registerTime, Date lastLoginTime) {
         this.id = id;
         this.un = un;
         this.phone = phone;
