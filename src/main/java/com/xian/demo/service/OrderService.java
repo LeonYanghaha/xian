@@ -9,10 +9,10 @@ public interface OrderService {
 //    查询用户的订单
     List<Order> getOrderList(Integer uid);
 //    取消订单
-    Integer cancelOrder();
+    Integer cancelOrder(Order order);
 //    提交订单
-    Integer submitOrder();
+    Integer submitOrder(Order order);
 //    确认收货
-    Integer recivedOrder();
+    Integer recivedOrder(Order order);
 
 }

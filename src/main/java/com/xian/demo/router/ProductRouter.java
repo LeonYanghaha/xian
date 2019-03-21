@@ -33,10 +33,10 @@ public class ProductRouter {
 //        return Result.ok(address);
 //    }
 
-    @RequestMapping(value = "saveProduct",method = RequestMethod.GET)
-    public Result saveProduct(){
-        return Result.ok(productService.saveProduct(null));
-    }
+//    @RequestMapping(value = "saveProduct",method = RequestMethod.GET)
+//    public Result saveProduct(){
+//        return Result.ok(productService.saveProduct(null));
+//    }
 
     @RequestMapping(value = "findAll",method = RequestMethod.GET)
     public Result findAll(@Param(value = "startNo") Integer startNo,

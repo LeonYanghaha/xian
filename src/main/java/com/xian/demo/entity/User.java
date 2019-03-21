@@ -23,9 +23,16 @@ public class User implements Serializable {
     private Date registerTime;
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss a", locale="zh", timezone="GMT+8")
     private Date lastLoginTime;
+    // 默认地址
+    private Integer defaultAddress;
 
-    public User(Integer id, String un, String phone, String pw, String headImage,
-                Short status, Date registerTime, Date lastLoginTime) {
+
+    public User() {
+    }
+
+    public User(Integer id, @NotNull(message = "用户名不能为空") String un, String phone,
+                @NotNull(message = "密码不能为空") String pw, String headImage,
+                Short status, Date registerTime, Date lastLoginTime, Integer defaultAddress) {
         this.id = id;
         this.un = un;
         this.phone = phone;
@@ -34,6 +41,7 @@ public class User implements Serializable {
         this.status = status;
         this.registerTime = registerTime;
         this.lastLoginTime = lastLoginTime;
+        this.defaultAddress = defaultAddress;
     }
 
     @Override
@@ -47,26 +55,8 @@ public class User implements Serializable {
                 ", status=" + status +
                 ", registerTime=" + registerTime +
                 ", lastLoginTime=" + lastLoginTime +
+                ", defaultAddress=" + defaultAddress +
                 '}';
-    }
-
-    public User() {
-    }
-
-    public Date getRegisterTime() {
-        return registerTime;
-    }
-
-    public void setRegisterTime(Date registerTime) {
-        this.registerTime = registerTime;
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
     }
 
     public static long getSerialVersionUID() {
@@ -119,5 +109,29 @@ public class User implements Serializable {
 
     public void setStatus(Short status) {
         this.status = status;
+    }
+
+    public Date getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(Date registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    public Integer getDefaultAddress() {
+        return defaultAddress;
+    }
+
+    public void setDefaultAddress(Integer defaultAddress) {
+        this.defaultAddress = defaultAddress;
     }
 }

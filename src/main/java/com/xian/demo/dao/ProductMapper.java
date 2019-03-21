@@ -20,7 +20,8 @@ public interface ProductMapper {
      * @param {String}
      * @return {String}
      */
-    @Update(value = "")
+    @Update(value = "UPDATE xian.PRODUCT SET stock = stock - #{number}, sellNumber = sellNumber - #{number} " +
+                    " WHERE pid = #{pid} ")
     Integer setProductStockAndSellNumber(@Param("pid") Integer pid,
                                          @Param("number") Integer number);
 

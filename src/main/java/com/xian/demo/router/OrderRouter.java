@@ -1,8 +1,10 @@
 package com.xian.demo.router;
 
 import com.xian.demo.entity.Result;
+import com.xian.demo.entity.Order;
 import com.xian.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,17 @@ public class OrderRouter {
 
     @Autowired
     private OrderService orderService;
+
+    /**
+     * @describe  提交订单
+     * @param {String}
+     * @return {String}
+     */
+    @RequestMapping(value = "submitOrder", method = RequestMethod.POST)
+    public Result submitOrder(@Validated Order order){
+        return Result.ok(orderService.submitOrder(order));
+    }
+
     /**
      * @describe  通过订单ID获取订单详情
      * @param {String}
@@ -55,13 +68,5 @@ public class OrderRouter {
         return null;
     }
 
-    /**
-     * @describe  提交订单
-     * @param {String}
-     * @return {String}
-     */
-    @RequestMapping(value = "submitOrder", method = RequestMethod.POST)
-    public Result submitOrder(){
-        return null;
-    }
+
 }

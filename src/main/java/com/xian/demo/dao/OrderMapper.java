@@ -20,12 +20,12 @@ public interface OrderMapper {
     List<Order> getOrderList(Integer uid);
 
     @Update(value = "")
-    Integer cancelOrder();
+    Integer cancelOrder(Order order);
 
     @Update(value = "")
-    Integer submitOrder();
+    Integer submitOrder(Order order);
 
     @Update(value = "")
-    Integer recivedOrder();
+    Integer recivedOrder(Order order);
 
 }

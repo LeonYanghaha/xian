@@ -1,14 +1,16 @@
 package com.xian.demo.entity;
-import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
-public class Address  implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Address {
+
     private Integer aid;
+    @NotNull(message = "用户ID不能为空")
     private Integer uid;
     private Date time;
     private String aname;
     private String aadderss;
     private String atag;
+    @NotNull(message = "收件人电话不能为空")
     private String aphone;
 
     public Address() {

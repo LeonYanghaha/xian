@@ -11,33 +11,28 @@ import java.util.List;
  * @describe order的service层
  */
 @Service
-public class OrderServiceImpl implements OrderService {
+public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private OrderMapper orderMapper;
 
-    @Override
     public Order getOrderById(Integer oid) {
         return null;
     }
 
-    @Override
     public List<Order> getOrderList(Integer uid) {
         return null;
     }
 
-    @Override
-    public Integer cancelOrder() {
+    public Integer cancelOrder(Order order) {
         return null;
     }
 
-    @Override
-    public Integer submitOrder() {
-        return null;
+    public Integer submitOrder(Order order) {
+        return orderMapper.submitOrder(order);
     }
 
-    @Override
-    public Integer recivedOrder() {
+    public Integer recivedOrder(Order order) {
         return null;
     }
 }
