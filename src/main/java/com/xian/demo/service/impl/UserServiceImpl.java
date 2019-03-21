@@ -7,7 +7,6 @@ import com.xian.demo.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -15,11 +14,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
-
-//    public List<User> findAllUser() {
-//        List<User> list = userMapper.findAll();
-//        return list;
-//    }
 
     public Boolean checkUn(String un){
         User user = userMapper.checkUn(un);

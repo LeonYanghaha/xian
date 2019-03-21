@@ -16,8 +16,6 @@ public class LoginInterceptor implements HandlerInterceptor {
      * 进入controller层之前拦截请求
      * @param httpServletRequest
      * @param httpServletResponse
-     * @param o
-     * @return
      * @throws Exception
      */
     @Override

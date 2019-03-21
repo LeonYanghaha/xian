@@ -2,7 +2,7 @@ package com.xian.demo.service;
 
 import com.xian.demo.entity.Order;
 import java.util.List;
-public interface OderService {
+public interface OrderService {
 
 //    根据ID查询订单
     Order getOrderById(Integer oid);

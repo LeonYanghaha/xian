@@ -1,6 +1,7 @@
 package com.xian.demo.service;
 
 import com.xian.demo.entity.Product;
+
 import java.util.List;
 
 public interface ProductService {

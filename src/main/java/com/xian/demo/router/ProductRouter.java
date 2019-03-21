@@ -5,6 +5,8 @@ import com.xian.demo.entity.Result;
 import com.xian.demo.service.ProductService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -15,11 +17,27 @@ public class ProductRouter {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    /**
+     * @describe 测试缓存的一个接口
+     */
+//    @Cacheable(value="user-key")
+//    @RequestMapping(value = "test", method = RequestMethod.GET)
+//    public Result getRedis(){
+//        Address address = new Address(2,3,new Date(),"aname", "aaddress", "home", "112");
+//        System.out.println("-----------------cahe--------------------");
+//        return Result.ok(address);
+//    }
 
     @RequestMapping(value = "saveProduct",method = RequestMethod.GET)
     public Result saveProduct(){
         return Result.ok(productService.saveProduct(null));
     }
+
     @RequestMapping(value = "findAll",method = RequestMethod.GET)
     public Result findAll(@Param(value = "startNo") Integer startNo,
                           @Param(value = "pageSize") Integer pageSize){

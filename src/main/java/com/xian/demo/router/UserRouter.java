@@ -75,7 +75,6 @@ public class UserRouter {
         }
     }
 
-
     /**
      * @describe 检查用户名是否被使用
      * @param {String}

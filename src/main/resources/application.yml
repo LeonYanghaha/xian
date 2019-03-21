@@ -24,7 +24,8 @@ spring:
       pool:
         max-active: 8
         max-wait: -1ms
-    timeout: 0ms
+        max-idle: 8
+#    timeout: 0ms
 
 #jiazai mybatis peizhiwenjian
 #mybatis:

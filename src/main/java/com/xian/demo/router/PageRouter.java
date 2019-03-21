@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "page/")
-public class Page {
+public class PageRouter {
     @RequestMapping(value = "getMeanuList",method = RequestMethod.GET)
     public Result getMeanuList(){
         return Result.ok();

@@ -1,13 +1,8 @@
 package com.xian.demo.entity;
+import java.io.Serializable;
 import java.util.Date;
-public class Address {
-//    aid 地址ID
-//    uid 用户ID
-//    time 添加时间
-//    aname 收件人姓名
-//    aphone 收件人电话
-//    atag 地址标签
-//    aadderss
+public class Address  implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer aid;
     private Integer uid;
     private Date time;

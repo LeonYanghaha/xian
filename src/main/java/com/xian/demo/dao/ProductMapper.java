@@ -57,7 +57,7 @@ public interface ProductMapper {
      * @return {List<Product>}
      */
 
-    @Select(value = "SELECT pid, price, name, `desc`, stock, `ptype`, isRecommend, status, pushTime, cid, sellNumber, imgUrl, ProductImg " +
+    @Select(value = "SELECT pid, price, name, `desc`, stock, `ptype`, isRecommend, status, pushTime, cid, sellNumber, imgUrl " +
             "FROM PRODUCT LIMIT #{startNo},#{pageSize}")
     @Results({
             @Result(property = "productType",
