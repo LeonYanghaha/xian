@@ -10,6 +10,14 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
+    /**
+     * @describe 校验pid 是否有效
+     */
+    @Select("SELECT COUNT(0) " +
+            "FROM xian.PRODUCT " +
+            "WHERE status = 0 AND pid = #{pid} ")
+    Integer validatedPid(@Param("pid") Integer pid);
+
 
     /**
      * @describe  设置商品的库存和销量
