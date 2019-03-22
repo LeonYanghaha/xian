@@ -1,23 +1,28 @@
 package com.xian.demo.service;
 
 import com.xian.demo.entity.Address;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Validated
 public interface AddressService {
     /**
      * @describe 获取用户所有的地址列表
      */
-    List<Address> getAddressList(Integer uid);
+    List<Address> getAddressList(@NotNull(message = "uid不能为空")Integer uid);
 
     /**
      * @describe 保存一个地址
      */
-    Integer saveAddress(Address address);
+    Integer saveAddress(@Valid Address address);
 
     /**
      * @describe 删除一个地址
      */
-    Integer removeAddress(Integer aid);
-
+    Integer removeAddress(@NotNull(message = "aid不能为空") Integer aid,
+                          @NotNull(message = "uid不能为空") Integer uid);
 
 }

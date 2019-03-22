@@ -4,9 +4,9 @@ import java.util.Date;
 public class Address {
 
     private Integer aid;
-    @NotNull(message = "用户ID不能为空")
     private Integer uid;
     private Date time;
+    @NotNull(message = "用户ID不能为空")
     private String aname;
     private String aadderss;
     private String atag;

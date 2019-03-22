@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry){
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/user/*")
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/user/*", "/car/*", "/order/*", "/address/*")
                 .excludePathPatterns("/user/register","/user/login");
     }
 }

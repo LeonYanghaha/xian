@@ -62,10 +62,10 @@ public interface ProductMapper {
      * @param {Integer} id
      * @return {Product} Product
      */
-    @Select(value = "SELECT pid, pid AS PPID, price, name, `desc`, stock, `ptype`, isRecommend, status, pushTime, cid, sellNumber, imgUrl" +
-                    "FROM PRODUCT " +
-                    "WHERE pid=#{id} " +
-                    "LIMIT 1")
+    @Select(value = " SELECT pid, pid AS PPID, price, name, `desc`, stock, `ptype`, isRecommend, status, pushTime, cid, sellNumber, imgUrl " +
+                    " FROM PRODUCT " +
+                    " WHERE pid = #{id} " +
+                    " LIMIT 1" )
     @Results({
             @Result(property = "productType",
                     column = "ptype",

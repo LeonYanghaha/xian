@@ -25,13 +25,6 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.getProductStock(pid).getStock();
     }
 
-//    public Integer saveProduct(Product product){
-//        return productMapper.saveProduct(product.getPrice(), product.getName(), product.getDesc(),
-//                                         product.getStock(), product.getProductType().getPtype(), product.getRecommend(),
-//                                         product.getStatus(), product.getCreate().getCid(),
-//                                         product.getSellNumber() );
-//    }
-
     public  Product findProductById(Integer id){
         return productMapper.findProductById(id);
     }
