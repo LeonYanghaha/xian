@@ -1,4 +1,5 @@
 package com.xian.demo.entity;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -7,30 +8,21 @@ import java.util.List;
  * @param {String}
  * @return {String}
  */
-public class Product {
+public class Product implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Integer pid;
-//    价格
     private Double price;
-//    商品名
     private String name;
-//    描述
     private String desc;
-//    库存
     private Integer stock;
-//    类型
     private ProductType productType;
-//    状态
     private Short status;
-//   是否推荐
     private Boolean isRecommend;
-//    上架时间
     private Date pushTime;
-//    厂家编号
     private Create create;
-//    累计销量
     private Integer sellNumber;
-//    商品图
     private List<ProductImg> productImgList;
 
     @Override

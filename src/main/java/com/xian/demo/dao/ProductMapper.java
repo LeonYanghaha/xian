@@ -5,13 +5,9 @@ import com.xian.demo.entity.Product;
 import com.xian.demo.entity.ProductImg;
 import com.xian.demo.entity.ProductType;
 import org.apache.ibatis.annotations.*;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
-
 import java.util.List;
 
 @Mapper
-@CacheConfig(cacheNames = "product")
 public interface ProductMapper {
 
 
@@ -20,8 +16,9 @@ public interface ProductMapper {
      * @param {String}
      * @return {String}
      */
-    @Update(value = "UPDATE xian.PRODUCT SET stock = stock - #{number}, sellNumber = sellNumber - #{number} " +
-                    " WHERE pid = #{pid} ")
+    @Update(value = "UPDATE xian.PRODUCT " +
+                    "SET stock = stock - #{number}, sellNumber = sellNumber - #{number} " +
+                    "WHERE pid = #{pid} ")
     Integer setProductStockAndSellNumber(@Param("pid") Integer pid,
                                          @Param("number") Integer number);
 
@@ -30,36 +27,21 @@ public interface ProductMapper {
      * @param {Integer} pid
      * @return {Product}
      */
-    @Select(value = "SELECT pid, stock FROM PRODUCT WHERE pid=#{pid} LIMIT 1")
+    @Select(value = "SELECT pid, stock FROM PRODUCT " +
+                    "WHERE pid=#{pid} " +
+                    "LIMIT 1")
     Product getProductStock(@Param("pid") Integer pid);
 
 
-
-    /**
-     * @describe 保存商品信息
-     * @param {String}
-     * @return {String}
-     */
-    @Insert(value = "INSERT INTO PRODUCT (price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl) " +
-            "VALUES(#{price}, #{name}, #{desc}, #{stock}, #{PTYPE}, #{isRecommend}, #{status}, NOW(), #{CID}, #{sellNumber})")
-    Integer saveProduct(@Param("price") Double price,
-                        @Param("name") String name,
-                        @Param("desc") String desc,
-                        @Param("stock") Integer stock,
-                        @Param("PTYPE") Integer PTYPE,
-                        @Param("isRecommend") Boolean isRecommend,
-                        @Param("status") Short status,
-                        @Param("CID") Integer CID,
-                        @Param("sellNumber") Integer sellNumber);
     /**
      * @describe 获取商品列表
      * @param {Integer} startNo
      * @param {Integer} pageSize
      * @return {List<Product>}
      */
-
-    @Select(value = "SELECT pid, price, name, `desc`, stock, `ptype`, isRecommend, status, pushTime, cid, sellNumber, imgUrl " +
-            "FROM PRODUCT LIMIT #{startNo},#{pageSize}")
+    @Select(value = "SELECT pid, pid AS PPID, price, name, `desc`, stock, `ptype`, isRecommend, status, pushTime, cid, sellNumber, imgUrl " +
+                    "FROM PRODUCT " +
+                    "LIMIT #{startNo}, #{pageSize}")
     @Results({
             @Result(property = "productType",
                     column = "ptype",
@@ -68,7 +50,7 @@ public interface ProductMapper {
                     column = "cid",
                     one = @One (select = "com.xian.demo.dao.ProductMapper.findCreateById")),
             @Result(property = "productImgList",
-                    column = "pid",
+                    column = "PPID",
                     many = @Many (select = "com.xian.demo.dao.ProductMapper.findImgList")
             )
     })
@@ -80,8 +62,10 @@ public interface ProductMapper {
      * @param {Integer} id
      * @return {Product} Product
      */
-    @Select(value = "SELECT pid, price, name, `desc`, stock, `ptype`, isRecommend, status, pushTime, cid, sellNumber, imgUrl FROM PRODUCT " +
-                    "WHERE pid=#{id} LIMIT 1")
+    @Select(value = "SELECT pid, pid AS PPID, price, name, `desc`, stock, `ptype`, isRecommend, status, pushTime, cid, sellNumber, imgUrl" +
+                    "FROM PRODUCT " +
+                    "WHERE pid=#{id} " +
+                    "LIMIT 1")
     @Results({
             @Result(property = "productType",
                     column = "ptype",
@@ -90,10 +74,9 @@ public interface ProductMapper {
                     column = "cid",
                     one = @One (select = "com.xian.demo.dao.ProductMapper.findCreateById")),
             @Result(property = "productImgList",
-                    column = "pid",
+                    column = "PPID",
                     many = @Many (select = "com.xian.demo.dao.ProductMapper.findImgList"))
     })
-    @Cacheable(key ="#p0")
     Product findProductById(@Param("id") Integer id);
 
 
@@ -104,8 +87,10 @@ public interface ProductMapper {
      * @param {Integer} pageSize
      * @return {List<Product>} List<Product>
      */
-    @Select(value = "SELECT pid, price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl FROM PRODUCT " +
-                    "WHERE PTYPE = #{type} LIMIT #{startNo},#{pageSize}")
+    @Select(value = "SELECT pid, pid AS PPID, price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl " +
+                    "FROM PRODUCT " +
+                    "WHERE PTYPE = #{type} " +
+                    "LIMIT #{startNo},#{pageSize}")
     @Results({
             @Result(property = "productType",
                     column = "ptype",
@@ -114,7 +99,7 @@ public interface ProductMapper {
                     column = "cid",
                     one = @One (select = "com.xian.demo.dao.ProductMapper.findCreateById")),
             @Result(property = "productImgList",
-                    column = "pid",
+                    column = "PPID",
                     many = @Many (select = "com.xian.demo.dao.ProductMapper.findImgList"))
     })
     List<Product> findProductByType(@Param("type") Integer type,
@@ -122,15 +107,21 @@ public interface ProductMapper {
                                     @Param("pageSize") Integer pageSize);
 
     // 查询productType
-    @Select("SELECT PTYPE, PTYPENAME FROM PRODUCTTYPE WHERE PTYPE=#{ptype}")
+    @Select("SELECT PTYPE, PTYPENAME " +
+            "FROM PRODUCTTYPE " +
+            "WHERE PTYPE=#{ptype}")
     ProductType findProductTypeById(@Param("ptype") Integer ptype);
 
     // 查询生产厂家 Create
-    @Select("SELECT CID, CNAME, CADDRESS, CDESC FROM `CREATE` WHERE CID=#{cid}")
+    @Select("SELECT CID, CNAME, CADDRESS, CDESC " +
+            "FROM `CREATE` " +
+            "WHERE CID=#{cid}")
     Create findCreateById(@Param("cid") Integer cid);
 
     // 查询  商品 图
-    @Select("SELECT pid, name FROM xian.PRODUCTMG WHERE pid=#{pid}")
+    @Select("SELECT iid, pid, name " +
+            "FROM xian.PRODUCTMG " +
+            "WHERE pid=#{pid}")
     ProductImg findImgList(@Param("pid") Integer pid);
 
 }

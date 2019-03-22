@@ -34,6 +34,9 @@ spring:
 #  type-aliases-package: com.xian.demo.entity
 #  table:
 #    auto: create
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 server:
   port: 8888

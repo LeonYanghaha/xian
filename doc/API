@@ -1,3 +1,89 @@
 1.product
+获取商品列表
+参数：startNo pageSize
+GET
+/product/findAll
 
-    /product/saveProduct   GET
+
+通过类型查询商品列表
+参数：type startNo pageSize
+GET
+/product/findByType
+
+通过ID获取商品详情
+参数：id
+GET
+/product/findById/{id}
+--------------------------------------------
+
+2.user
+修改头像
+POST
+/user/changeHeadImage
+
+登录
+参数：un  pw
+POST
+/user/login
+
+注册
+参数：user对象
+POST
+/user/register
+
+检查用户名是否被使用
+参数：un
+POST
+/user/checkUn
+-------------------------------------------
+
+3.订单  全部POST
+提交订单
+参数：Oder对象
+/order/submitOrder
+
+获取订单详情
+参数：订单ID
+/order/getOrderById
+
+取消订单
+参数：订单ID
+/order/cancelOrder
+
+确认收货
+参数：订单ID
+/order/recivedOrder
+----------------------------------------------
+
+4.购物车  全部POST
+添加商品到购物车
+参数：car对象
+/car/addItemToCar
+
+获取购物车里的所有商品
+参数：uid
+/car/getCarList
+
+移除购物车的某个商品
+参数：pid
+/car/removeItem
+---------------------------------------------
+
+5.地址 全部POST
+
+/address/getAddressList
+参数：uid
+获取用户的地址列表
+
+/address/saveAddress
+参数：address 对象
+新增地址
+
+/address/removeAddress
+参数：uid   aid
+删除某个地址
+
+
+
+
+

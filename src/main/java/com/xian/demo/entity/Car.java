@@ -1,10 +1,15 @@
 package com.xian.demo.entity;
 
+import sun.security.util.ManifestEntryVerifier;
+
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Car {
 
+    @NotNull(message = "用户ID不能为空")
     private Integer uid;
+    @NotNull(message = "商品ID不能为空")
     private Integer pid;
     private Date addTime;
 

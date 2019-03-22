@@ -1,7 +1,10 @@
 package com.xian.demo.entity;
 
-public class ProductImg {
+import java.io.Serializable;
 
+public class ProductImg implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private Integer iid;
     private Integer pid;
     private String name;

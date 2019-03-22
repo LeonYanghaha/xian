@@ -1,8 +1,11 @@
 package com.xian.demo.entity;
 
 
-public class ProductType {
+import java.io.Serializable;
 
+public class ProductType implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private Integer ptype;
     private String ptypename;
 

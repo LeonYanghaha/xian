@@ -22,34 +22,29 @@ public class ProductRouter {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    /**
-     * @describe 测试缓存的一个接口
-     */
-//    @Cacheable(value="user-key")
-//    @RequestMapping(value = "test", method = RequestMethod.GET)
-//    public Result getRedis(){
-//        Address address = new Address(2,3,new Date(),"aname", "aaddress", "home", "112");
-//        System.out.println("-----------------cahe--------------------");
-//        return Result.ok(address);
-//    }
-
-//    @RequestMapping(value = "saveProduct",method = RequestMethod.GET)
-//    public Result saveProduct(){
-//        return Result.ok(productService.saveProduct(null));
-//    }
-
+//    @Cacheable(value="product_all")
     @RequestMapping(value = "findAll",method = RequestMethod.GET)
     public Result findAll(@Param(value = "startNo") Integer startNo,
                           @Param(value = "pageSize") Integer pageSize){
-        return Result.ok(productService.findAll(1,10));
+
+        List<Product> productList = productService.findAll(startNo, pageSize);
+        if(productList.size()<=0){
+            return Result.ok("暂无商品",null);
+        }else{
+            return Result.ok(productList);
+        }
+
     }
 
-    @RequestMapping(value = "findByType/{type}",method = RequestMethod.GET)
-    public Result findProductByType(@PathVariable(value = "type") Integer type){
+//    @Cacheable(value="product_type")
+    @RequestMapping(value = "findByType",method = RequestMethod.GET)
+    public Result findProductByType(@Param(value = "type") Integer type,
+                                    @Param(value = "startNo") Integer startNo,
+                                    @Param(value = "pageSize") Integer pageSize){
 
-        List<Product> product = productService.findProductByType(type,1,2);
-        if(product.size()<=0){
-            return Result.errorMsg("type 错误");
+        List<Product> product = productService.findProductByType(type, startNo, pageSize);
+        if(product.size() <= 0 ){// 没有查到对应的商品
+            return Result.ok("没有对应的商品", null);
         }else{
             return Result.ok(product);
         }

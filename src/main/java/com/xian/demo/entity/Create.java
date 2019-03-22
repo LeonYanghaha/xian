@@ -1,6 +1,9 @@
 package com.xian.demo.entity;
 
-public class Create {
+import java.io.Serializable;
+
+public class Create implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer cid;
     private String cname;
     private String caddress;
