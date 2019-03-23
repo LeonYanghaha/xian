@@ -27,7 +27,9 @@ public class OrderServiceImpl implements OrderService{
     }
 
     public List<Order> getOrderList(Integer uid) {
-        return null;
+
+        return orderMapper.getOrderList(uid);
+
     }
 
     public Integer cancelOrder(Order order) {

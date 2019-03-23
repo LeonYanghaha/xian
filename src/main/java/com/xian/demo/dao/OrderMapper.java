@@ -1,5 +1,6 @@
 package com.xian.demo.dao;
 
+import com.xian.demo.entity.OrderDetial;
 import org.apache.ibatis.annotations.*;
 import java.util.List;
 import com.xian.demo.entity.Order;
@@ -11,11 +12,23 @@ import com.xian.demo.entity.Order;
 @Mapper
 public interface OrderMapper {
 
-    @Select(value = "")
-    Order getOrderById(Integer oid);
+    @Select(value = "SELECT oid, uid, submitTime, payTime, pushTime, ReceivedTime, aid, totalPrice, " +
+                         "meta, orderDetial, status, aname, aadderss, atag, aphone " +
+                    "FROM xian.user_order_detial " +
+                    "WHERE oid = #{oid} ")
+    Order getOrderById(@Param("oid") Integer oid);
 
-    @Select(value = "")
-    List<Order> getOrderList(Integer uid);
+    @Select(value = "SELECT oid, uid, submitTime, payTime, pushTime, ReceivedTime, aid, totalPrice, " +
+                            "meta, orderDetial, status, aname, aadderss, atag, aphone " +
+                    "FROM xian.user_order_detial " +
+                    "WHERE uid = #{uid} ")
+    @Results({
+            @Result(property = "orderDetial",
+                    column = "oid",
+                    many = @Many(select = "com.xian.demo.dao.OrderMapper.getOrderDetial")
+            )
+    })
+    List<Order> getOrderList(@Param("uid") Integer uid);
 
     @Update(value = "")
     Integer cancelOrder(Order order);
@@ -39,5 +52,11 @@ public interface OrderMapper {
 
     @Update(value = "")
     Integer recivedOrder(Order order);
+
+
+    @Select("SELECT oid, pid, `number`, price, meta " +
+            "FROM xian.ORDERDETIAL " +
+            "WHERE oid = #{oid} ")
+    List<OrderDetial> getOrderDetial(@Param("oid") Integer oid);
 
 }

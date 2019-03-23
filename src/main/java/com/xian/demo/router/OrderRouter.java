@@ -69,8 +69,10 @@ public class OrderRouter {
      * @return {String}
      */
     @RequestMapping(value = "getOrderList", method = RequestMethod.POST)
-    public Result getOrderList(){
-        return null;
+    public Result getOrderList(HttpServletRequest httpServletRequest){
+
+        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        return Result.ok(orderService.getOrderList(user.getId()));
     }
 
     /**
