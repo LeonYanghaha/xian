@@ -7,6 +7,7 @@ import java.util.List;
  * @describe  新建了购物车和商品表的视图。然而必须建立一个对应的实体类。
  *             要不然查出来的数据没发做映射，只能用object接收😢😢
  */
+//TODO 2019/3/23 8:20 AM 这个实体类好像没有必要，通过数据映射就可以实现的
 public class CarDetial {
 
     private Integer carid;

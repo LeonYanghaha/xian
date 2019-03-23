@@ -25,20 +25,24 @@ public interface ProductMapper {
      * @return {String}
      */
     @Update(value = "UPDATE xian.PRODUCT " +
-                    "SET stock = stock - #{number}, sellNumber = sellNumber - #{number} " +
+                    "SET stock = stock - #{number}, sellNumber = sellNumber + #{number} " +
                     "WHERE pid = #{pid} ")
     Integer setProductStockAndSellNumber(@Param("pid") Integer pid,
                                          @Param("number") Integer number);
 
     /**
      * @describe 获取商品的库存
-     * @param {Integer} pid
+     * @param {List<Integer>} pid
      * @return {Product}
      */
-    @Select(value = "SELECT pid, stock FROM PRODUCT " +
-                    "WHERE pid=#{pid} " +
-                    "LIMIT 1")
-    Product getProductStock(@Param("pid") Integer pid);
+    @Select(value = "<script>" +
+                    "SELECT pid, stock FROM PRODUCT " +
+                    "WHERE pid In " +
+                    "<foreach item='item' index='index' collection='pidList' open='(' separator=',' close=')' >" +
+                    "   #{item} "+
+                    "</foreach> " +
+                    "</script>")
+    List<Product> getProductStock(@Param("pidList") List<Integer> pidList);
 
 
     /**
@@ -99,6 +103,7 @@ public interface ProductMapper {
                     "FROM PRODUCT " +
                     "WHERE PTYPE = #{type} " +
                     "LIMIT #{startNo},#{pageSize}")
+    //TODO 这里还有优化的空间，这里可以通过视图的方式去查询，而不是嵌套好多次的
     @Results({
             @Result(property = "productType",
                     column = "ptype",

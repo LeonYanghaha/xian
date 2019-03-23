@@ -21,8 +21,8 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.setProductStockAndSellNumber(pid, number);
     }
 
-    public Integer getProductStock(Integer pid) {
-        return productMapper.getProductStock(pid).getStock();
+    public List<Product> getProductStock(List<Integer> pidList) {
+        return productMapper.getProductStock(pidList);
     }
 
     public  Product findProductById(Integer id){

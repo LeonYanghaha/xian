@@ -2,6 +2,8 @@ package com.xian.demo.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
+import java.util.List;
+
 public class Order {
 
 //    oid 订单ID
@@ -29,14 +31,17 @@ public class Order {
     private Address address;
     private Double totalPrice;
     private String meta;
-    private OrderDetial orderDetial;
+    private List<OrderDetial> orderDetial;
     private Short status;
 
+
     public Order() {
+
     }
 
-    public Order(Integer oid, User user, Date submitTime, Date payTime, Date pushTime, Date receivedTime,
-                 Address address, Double totalPrice, String meta, OrderDetial orderDetial, Short status) {
+    public Order(Integer oid, User user, Date submitTime, Date payTime,
+                 Date pushTime, Date receivedTime, Address address, Double totalPrice,
+                 String meta, List<OrderDetial> orderDetial, Short status) {
         this.oid = oid;
         this.user = user;
         this.submitTime = submitTime;
@@ -139,11 +144,11 @@ public class Order {
         this.meta = meta;
     }
 
-    public OrderDetial getOrderDetial() {
+    public List<OrderDetial> getOrderDetial() {
         return orderDetial;
     }
 
-    public void setOrderDetial(OrderDetial orderDetial) {
+    public void setOrderDetial(List<OrderDetial> orderDetial) {
         this.orderDetial = orderDetial;
     }
 

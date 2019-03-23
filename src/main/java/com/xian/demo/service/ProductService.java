@@ -9,7 +9,7 @@ public interface ProductService {
 //    设置商品的库存，并增加销量
     Integer setProductStockAndSellNumber(Integer pid, Integer number);
 //    获取商品的库存
-    Integer getProductStock(Integer pid);
+    List<Product> getProductStock(List<Integer> pidList);
 
 //    Integer saveProduct(Product product);
 
