@@ -33,15 +33,11 @@ public class Order {
     private String meta;
     private List<OrderDetial> orderDetial;
     private Short status;
+    private String name;
 
-
-    public Order() {
-
-    }
-
-    public Order(Integer oid, User user, Date submitTime, Date payTime,
-                 Date pushTime, Date receivedTime, Address address, Double totalPrice,
-                 String meta, List<OrderDetial> orderDetial, Short status) {
+    public Order(Integer oid, User user, Date submitTime, Date payTime, Date pushTime,
+                 Date receivedTime, Address address, Double totalPrice, String meta,
+                 List<OrderDetial> orderDetial, Short status, String name) {
         this.oid = oid;
         this.user = user;
         this.submitTime = submitTime;
@@ -53,6 +49,10 @@ public class Order {
         this.meta = meta;
         this.orderDetial = orderDetial;
         this.status = status;
+        this.name = name;
+    }
+
+    public Order() {
     }
 
     @Override
@@ -69,6 +69,7 @@ public class Order {
                 ", meta='" + meta + '\'' +
                 ", orderDetial=" + orderDetial +
                 ", status=" + status +
+                ", name='" + name + '\'' +
                 '}';
     }
 
@@ -158,5 +159,13 @@ public class Order {
 
     public void setStatus(Short status) {
         this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

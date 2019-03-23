@@ -12,16 +12,25 @@ import com.xian.demo.entity.Order;
 @Mapper
 public interface OrderMapper {
 
+    /**
+     * @describe  通过订单ID获取用户的订单详情
+     */
     @Select(value = "SELECT oid, uid, submitTime, payTime, pushTime, ReceivedTime, aid, totalPrice, " +
                          "meta, orderDetial, status, aname, aadderss, atag, aphone " +
                     "FROM xian.user_order_detial " +
-                    "WHERE oid = #{oid} ")
-    Order getOrderById(@Param("oid") Integer oid);
+                    "WHERE oid = #{oid} AND uid = #{uid} ")
+    Order getOrderById(@Param("oid") Integer oid,
+                       @Param("uid") Integer uid);
 
+    /**
+     * @describe 获取用户的订单列表
+     */
+    //TODO 2019/3/23 11:06 AM  订单列表页应该做分页查询
     @Select(value = "SELECT oid, uid, submitTime, payTime, pushTime, ReceivedTime, aid, totalPrice, " +
                             "meta, orderDetial, status, aname, aadderss, atag, aphone " +
                     "FROM xian.user_order_detial " +
-                    "WHERE uid = #{uid} ")
+                    "WHERE uid = #{uid} " +
+                    "LIMIT 0，10")
     @Results({
             @Result(property = "orderDetial",
                     column = "oid",
@@ -30,6 +39,9 @@ public interface OrderMapper {
     })
     List<Order> getOrderList(@Param("uid") Integer uid);
 
+    /**
+     * @describe 用户主动取消订单。。。。仅限于未付款的订单
+     */
     @Update(value = "")
     Integer cancelOrder(Order order);
 
@@ -41,6 +53,9 @@ public interface OrderMapper {
                         @Param("meta") String meta);
 
 
+    /**
+     * @describe 插入订单详情表
+     */
     //TODO 2019/3/23 10:21 AM  这里应该批量插入，而不是现在这种循环插入
     @Insert("INSERT INTO xian.ORDERDETIAL (oid, pid, `number`, price, meta) " +
             "VALUES(#{oid}, #{pid}, #{number}, #{price}, #{meta})")
@@ -50,10 +65,16 @@ public interface OrderMapper {
                               @Param("price") Double price,
                               @Param("meta") String meta);
 
+    /**
+     * @describe 确认收货
+     */
     @Update(value = "")
     Integer recivedOrder(Order order);
 
 
+    /**
+     * @describe 获取订单详情表中的数据
+     */
     @Select("SELECT oid, pid, `number`, price, meta " +
             "FROM xian.ORDERDETIAL " +
             "WHERE oid = #{oid} ")

@@ -36,11 +36,12 @@ public class OrderRouter {
         order.setMeta(meta);
         order.setTotalPrice(totalPrice);
         order.setUser(user);
+        order.setName("-------------");
 
         List<OrderDetial> orderDetialList = new ArrayList<>();
-        orderDetialList.add(new OrderDetial(1,4,4,3.4,"meta1"));
-        orderDetialList.add(new OrderDetial(1,6,14,4.4,"meta2"));
-        orderDetialList.add(new OrderDetial(1,5,24,6.4,"meta3"));
+        orderDetialList.add(new OrderDetial(1,4,"aiya-1",499999,3.4,"meta1"));
+        orderDetialList.add(new OrderDetial(1,6,"aiya-2",14,4.4,"meta2"));
+        orderDetialList.add(new OrderDetial(1,5,"aiya-3",24,6.4,"meta3"));
         order.setOrderDetial(orderDetialList);
 
         Integer tempResult = orderService.submitOrder(order);
@@ -59,8 +60,16 @@ public class OrderRouter {
      * @return {String}
      */
     @RequestMapping(value = "getOrderById", method = RequestMethod.POST)
-    public Result getOrderById(){
-        return null;
+    public Result getOrderById(HttpServletRequest httpServletRequest,
+                               @Param("oid") Integer oid){
+
+        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        Order order = orderService.getOrderById(oid, user.getId());
+        if(order != null){
+            return Result.ok(order);
+        }else{
+            return Result.errorMsg("没有该订单");
+        }
     }
 
     /**

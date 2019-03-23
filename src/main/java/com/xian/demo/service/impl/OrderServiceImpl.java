@@ -22,8 +22,8 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private ProductMapper productMapper;
 
-    public Order getOrderById(Integer oid) {
-        return null;
+    public Order getOrderById(Integer oid, Integer uid) {
+        return orderMapper.getOrderById(oid, uid);
     }
 
     public List<Order> getOrderList(Integer uid) {
@@ -57,13 +57,13 @@ public class OrderServiceImpl implements OrderService{
                     continue;
                 }
                 if(pidSockList.get(j).getStock() < orderDetialList.get(i).getNumber()){
-                    System.out.println("库存不够");
+//                    System.out.println("库存不够");
                     isBack = true;
                     break goBack;
                 }
-                System.out.print("库存充足");
-                System.out.print(pidSockList.get(j));
-                System.out.print(orderDetialList.get(i));
+//                System.out.print("库存充足");
+//                System.out.print(pidSockList.get(j));
+//                System.out.print(orderDetialList.get(i));
             }
         }
 

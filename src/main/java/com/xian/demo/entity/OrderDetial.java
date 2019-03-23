@@ -8,6 +8,7 @@ public class OrderDetial {
 //    meta  其他信息
     private Integer oid;
     private Integer pid;
+    private String pname;
     private Integer number;
     private Double price;
     private String meta;
@@ -15,23 +16,25 @@ public class OrderDetial {
     public OrderDetial() {
     }
 
+    public OrderDetial(Integer oid, Integer pid, String pname, Integer number, Double price, String meta) {
+        this.oid = oid;
+        this.pid = pid;
+        this.pname = pname;
+        this.number = number;
+        this.price = price;
+        this.meta = meta;
+    }
+
     @Override
     public String toString() {
         return "OrderDetial{" +
                 "oid=" + oid +
                 ", pid=" + pid +
+                ", pname='" + pname + '\'' +
                 ", number=" + number +
                 ", price=" + price +
                 ", meta='" + meta + '\'' +
                 '}';
-    }
-
-    public OrderDetial(Integer oid, Integer pid, Integer number, Double price, String meta) {
-        this.oid = oid;
-        this.pid = pid;
-        this.number = number;
-        this.price = price;
-        this.meta = meta;
     }
 
     public Integer getOid() {
@@ -48,6 +51,14 @@ public class OrderDetial {
 
     public void setPid(Integer pid) {
         this.pid = pid;
+    }
+
+    public String getPname() {
+        return pname;
+    }
+
+    public void setPname(String pname) {
+        this.pname = pname;
     }
 
     public Integer getNumber() {
