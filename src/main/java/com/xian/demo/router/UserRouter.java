@@ -38,7 +38,6 @@ public class UserRouter {
     public Result login(@RequestParam(value = "un") String un,
                         @RequestParam(value = "pw") String pw,
                         HttpServletRequest request){
-        System.out.println(un + pw);
         User user = userService.login(un,pw);
         result = new Result();
         if(user==null){
@@ -54,8 +53,13 @@ public class UserRouter {
      * @return {String}
      */
     @RequestMapping(value = "register",method = RequestMethod.POST)
-    public Result register (@Validated User user, BindingResult bindingResult) {
+    public Result register (@Validated User user,
+                            BindingResult bindingResult,
+                            @RequestParam String repw) {
 
+        if(repw != user.getPw()){
+            return  Result.errorMsg("两次输入的密码不一致");
+        }
         if(bindingResult.hasErrors()){
             return Result.errorMsg(bindingResult.getFieldError().getDefaultMessage());
         }
