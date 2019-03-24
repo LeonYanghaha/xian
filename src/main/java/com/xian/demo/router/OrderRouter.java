@@ -64,9 +64,9 @@ public class OrderRouter {
                                @Param("oid") Integer oid){
 
         User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
-        Order order = orderService.getOrderById(oid, user.getId());
-        if(order != null){
-            return Result.ok(order);
+        V_user_order_detial v_user_order_detial = orderService.getOrderById(oid, user.getId());
+        if(v_user_order_detial != null){
+            return Result.ok(v_user_order_detial);
         }else{
             return Result.errorMsg("没有该订单");
         }
@@ -90,8 +90,17 @@ public class OrderRouter {
      * @return {String}
      */
     @RequestMapping(value = "cancelOrder", method = RequestMethod.POST)
-    public Result cancelOrder(){
-        return null;
+    public Result cancelOrder(HttpServletRequest httpServletRequest,
+                              @Param("oid") Integer oid) {
+
+
+        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        Integer tempResult = orderService.cancelOrder(oid, user.getId());
+        if (tempResult == 1) {
+            return Result.ok("success");
+        } else {
+            return Result.errorMsg("操作失败");
+        }
     }
 
     /**
@@ -100,8 +109,15 @@ public class OrderRouter {
      * @return {String}
      */
     @RequestMapping(value = "recivedOrder", method = RequestMethod.POST)
-    public Result recivedOrder(){
-        return null;
+    public Result recivedOrder(HttpServletRequest httpServletRequest,
+                               @Param("oid") Integer oid){
+        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        Integer tempResult = orderService.recivedOrder(oid , user.getId());
+        if(tempResult == 1){
+            return Result.ok("success");
+        }else{
+            return Result.errorMsg("操作失败");
+        }
     }
 
 

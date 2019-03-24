@@ -1,10 +1,12 @@
 package com.xian.demo.service.impl;
 
+import com.sun.tools.corba.se.idl.constExpr.Or;
 import com.xian.demo.dao.OrderMapper;
 import com.xian.demo.dao.ProductMapper;
 import com.xian.demo.entity.Order;
 import com.xian.demo.entity.OrderDetial;
 import com.xian.demo.entity.Product;
+import com.xian.demo.entity.V_user_order_detial;
 import com.xian.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,19 +24,24 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private ProductMapper productMapper;
 
-    public Order getOrderById(Integer oid, Integer uid) {
+    public V_user_order_detial getOrderById(Integer oid, Integer uid) {
         return orderMapper.getOrderById(oid, uid);
     }
 
     public List<Order> getOrderList(Integer uid) {
 
-        return orderMapper.getOrderList(uid);
+        List<Order> orderList = orderMapper.getOrderList(uid);
+        if(orderList.size()<=0){
+            return null;
+        }else{
+            return orderList;
+        }
 
     }
 
-    public Integer cancelOrder(Order order) {
+    public Integer cancelOrder(Integer oid, Integer uid) {
         // 取消订单的时候，应该先检查该订单是否付款。只有未付款的订单才能取消
-        return null;
+        return orderMapper.cancelOrder(oid, uid);
     }
 
     public Integer submitOrder(Order order) {
@@ -110,9 +117,9 @@ public class OrderServiceImpl implements OrderService{
         return 1;
     }
 
-    public Integer recivedOrder(Order order) {
+    public Integer recivedOrder(Integer oid, Integer uid) {
 
 
-        return null;
+        return orderMapper.recivedOrder(oid, uid);
     }
 }
