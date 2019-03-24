@@ -7,14 +7,11 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("user/")
 public class UserRouter {
@@ -35,11 +32,13 @@ public class UserRouter {
      * @param {String}
      * @return {String}
      */
+    //TODO 2019/3/24 3:53 PM  目前是基于session保存用户的登录状态的。
+    //TODO 2019/3/24 3:54 PM 但是前后端分离之后，session是没法用的。后面需要改成基于jwt或者token的
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public Result login(@RequestParam(value = "un") String un,
                         @RequestParam(value = "pw") String pw,
                         HttpServletRequest request){
-
+        System.out.println(un + pw);
         User user = userService.login(un,pw);
         result = new Result();
         if(user==null){

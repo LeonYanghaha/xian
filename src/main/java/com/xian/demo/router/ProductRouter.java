@@ -24,8 +24,8 @@ public class ProductRouter {
 
 //    @Cacheable(value="product_all")
     @RequestMapping(value = "findAll",method = RequestMethod.GET)
-    public Result findAll(@Param(value = "startNo") Integer startNo,
-                          @Param(value = "pageSize") Integer pageSize){
+    public Result findAll(@RequestParam(value = "startNo", defaultValue = "0") Integer startNo,
+                          @RequestParam(value = "pageSize", defaultValue = "6") Integer pageSize){
 
         List<Product> productList = productService.findAll(startNo, pageSize);
         if(productList.size()<=0){
