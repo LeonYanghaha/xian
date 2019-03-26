@@ -3,6 +3,7 @@ package com.xian.demo.router;
 import com.xian.demo.entity.Result;
 import com.xian.demo.entity.User;
 import com.xian.demo.service.UserService;
+import com.xian.demo.util.JWTTool;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -18,11 +19,12 @@ public class UserRouter {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private JWTTool jwtTool;
     private Result result;
 
     @RequestMapping(value = "changeHeadImage",method = RequestMethod.POST)
     public Result changeHeadImage(HttpServletRequest request){
-//        String str = userService.changeHeadImage();
         result =  Result.ok("ok");
         return result;
     }
@@ -43,8 +45,14 @@ public class UserRouter {
         if(user==null){
             return Result.errorMsg("用户名或密码错误");
         }else{
-            request.getSession().setAttribute("currentUser", user);
-            return Result.ok(user);
+            // request.getSession().setAttribute("currentUser", user);
+            String token = JWTTool.sign(user,60L* 1000L* 30L);
+            if(token == null){
+                return Result.errorMsg("未知错误");
+            }else{
+                user.setPhone(token);
+                return Result.ok(user);
+            }
         }
     }
     /**
@@ -57,7 +65,7 @@ public class UserRouter {
                             BindingResult bindingResult,
                             @RequestParam String repw) {
 
-        if(repw != user.getPw()){
+        if(!repw.equals(user.getPw())){
             return  Result.errorMsg("两次输入的密码不一致");
         }
         if(bindingResult.hasErrors()){
