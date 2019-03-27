@@ -8,7 +8,7 @@ import com.xian.demo.entity.User;
 @Mapper
 public interface UserMapper {
 
-    @Select(value = " SELECT ID, un, phone, pw, headImage, status FROM USER " +
+    @Select(value = " SELECT ID, un, phone, pw, headImage, status, registerTime, lastLoginTime FROM USER " +
                     "WHERE un=#{un} AND pw=#{pw} LIMIT 1")
     User login(@Param("un") String un ,@Param("pw") String pw);
 

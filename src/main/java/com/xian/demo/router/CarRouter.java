@@ -23,7 +23,7 @@ public class CarRouter {
     @RequestMapping(value = "addItemToCar", method = RequestMethod.POST)
     public Result addItemToCar(Car car, HttpServletRequest httpServletRequest){
 
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         car.setUid(user.getId());
         Integer tempFlag = carService.addItemToCar(car);
         if(tempFlag == 1){
@@ -32,18 +32,18 @@ public class CarRouter {
             return Result.errorMsg("添加失败");
         }
     }
-    
+
     @RequestMapping(value = "getCarList", method = RequestMethod.POST)
     public Result getCarList(HttpServletRequest httpServletRequest){
 
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         return Result.ok(carService.getCarList(user.getId()));
     }
 
     @RequestMapping(value = "removeItem", method = RequestMethod.POST)
     public Result removeItem(HttpServletRequest httpServletRequest, @Param("pid") Integer pid){
 
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         Integer tempFlag = carService.removeItem(user.getId(), pid);
         if(tempFlag == 1 ){
             return Result.ok("删除成功");

@@ -24,14 +24,14 @@ public class AddressRouter {
     @RequestMapping(value = "getAddressList", method = RequestMethod.POST)
     public Result getAddressList(HttpServletRequest httpServletRequest){
 
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         return Result.ok(addressService.getAddressList(user.getId()));
     }
 
     @RequestMapping(value = "saveAddress", method = RequestMethod.POST)
     public Result saveAddress(@Validated Address address, HttpServletRequest httpServletRequest){
 
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         address.setUid(user.getId());
         Integer tempTag = addressService.saveAddress(address);
 
@@ -45,7 +45,7 @@ public class AddressRouter {
     @RequestMapping(value = "removeAddress", method = RequestMethod.POST)
     public Result removeAddress(@Param("aid") Integer aid, HttpServletRequest httpServletRequest){
 
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         Integer tempFlag = addressService.removeAddress(aid, user.getId());
 
         if(tempFlag == 1){

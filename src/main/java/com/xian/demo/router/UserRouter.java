@@ -3,6 +3,7 @@ package com.xian.demo.router;
 import com.xian.demo.entity.Result;
 import com.xian.demo.entity.User;
 import com.xian.demo.service.UserService;
+import com.xian.demo.util.Common;
 import com.xian.demo.util.JWTTool;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,11 @@ public class UserRouter {
     private UserService userService;
     @Autowired
     private JWTTool jwtTool;
-    private Result result;
-
+    @Autowired
+    private Common common;
     @RequestMapping(value = "changeHeadImage",method = RequestMethod.POST)
     public Result changeHeadImage(HttpServletRequest request){
-        result =  Result.ok("ok");
-        return result;
+        return  Result.ok("ok");
     }
 
     /**
@@ -41,11 +41,9 @@ public class UserRouter {
                         @RequestParam(value = "pw") String pw,
                         HttpServletRequest request){
         User user = userService.login(un,pw);
-        result = new Result();
         if(user==null){
             return Result.errorMsg("用户名或密码错误");
         }else{
-            // request.getSession().setAttribute("currentUser", user);
             String token = JWTTool.sign(user,60L* 1000L* 30L);
             if(token == null){
                 return Result.errorMsg("未知错误");
@@ -72,8 +70,6 @@ public class UserRouter {
             return Result.errorMsg(bindingResult.getFieldError().getDefaultMessage());
         }
 
-        result = new Result();
-
         if(!userService.checkUn(user.getUn())){
             return  Result.errorMsg("用户名已经被使用");
         }
@@ -93,7 +89,6 @@ public class UserRouter {
      */
     @RequestMapping(value = "checkUn",method = RequestMethod.POST)
     public Result checkUn(@Param(value = "un") String un){
-        result = new Result();
         if(userService.checkUn(un)){
             return  Result.ok("ok");
         }else{

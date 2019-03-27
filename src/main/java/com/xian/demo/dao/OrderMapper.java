@@ -33,14 +33,14 @@ public interface OrderMapper {
      * @describe 获取用户的订单列表
      */
     //TODO 2019/3/23 11:06 AM  订单列表页应该做分页查询
-    @Select(value = "SELECT oid, uid, submitTime, payTime, pushTime, ReceivedTime, aid, totalPrice, " +
+    @Select(value = "SELECT oid, oid AS ooid, uid, submitTime,name, payTime, pushTime, ReceivedTime, aid, totalPrice, " +
                             "meta, orderDetial, status, aname, aadderss, atag, aphone " +
                     "FROM xian.user_order_detial " +
                     "WHERE uid = #{uid} " +
-                    "LIMIT 0，10")
+                    "LIMIT 1, 10")
     @Results({
             @Result(property = "orderDetial",
-                    column = "oid",
+                    column = "ooid",
                     many = @Many(select = "com.xian.demo.dao.OrderMapper.getOrderDetial")
             )
     })

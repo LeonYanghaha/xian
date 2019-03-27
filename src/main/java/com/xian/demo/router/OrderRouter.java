@@ -21,6 +21,7 @@ public class OrderRouter {
     @Autowired
     private OrderService orderService;
 
+
     /**
      * @describe  提交订单
      * @param {String}
@@ -30,7 +31,7 @@ public class OrderRouter {
     public Result submitOrder(HttpServletRequest httpServletRequest,
                               @Param("meta") String meta,
                               @Param("totalPrice") Double totalPrice){
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         Order order = new Order();
         order.setAddress(new Address(4,2, null,"","","",""));
         order.setMeta(meta);
@@ -63,7 +64,7 @@ public class OrderRouter {
     public Result getOrderById(HttpServletRequest httpServletRequest,
                                @Param("oid") Integer oid){
 
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         V_user_order_detial v_user_order_detial = orderService.getOrderById(oid, user.getId());
         if(v_user_order_detial != null){
             return Result.ok(v_user_order_detial);
@@ -80,7 +81,7 @@ public class OrderRouter {
     @RequestMapping(value = "getOrderList", method = RequestMethod.POST)
     public Result getOrderList(HttpServletRequest httpServletRequest){
 
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         return Result.ok(orderService.getOrderList(user.getId()));
     }
 
@@ -94,7 +95,7 @@ public class OrderRouter {
                               @Param("oid") Integer oid) {
 
 
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         Integer tempResult = orderService.cancelOrder(oid, user.getId());
         if (tempResult == 1) {
             return Result.ok("success");
@@ -111,7 +112,7 @@ public class OrderRouter {
     @RequestMapping(value = "recivedOrder", method = RequestMethod.POST)
     public Result recivedOrder(HttpServletRequest httpServletRequest,
                                @Param("oid") Integer oid){
-        User user = (User) httpServletRequest.getSession().getAttribute("currentUser");
+        User user = (User) httpServletRequest.getAttribute("currentUser");
         Integer tempResult = orderService.recivedOrder(oid , user.getId());
         if(tempResult == 1){
             return Result.ok("success");
