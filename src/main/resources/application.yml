@@ -44,6 +44,3 @@ server:
 # logger
 logging:
   config: classpath:logback.xml
-xian:
-  reqUserKey: currentUser
-  reqHeadKey: token

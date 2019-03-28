@@ -9,6 +9,9 @@ import java.util.List;
 
 @Validated
 public interface AddressService {
+
+    List<Address> checkAid(@NotNull(message = "aid不能为空") Integer aid,
+                     @NotNull(message = "uid不能为空") Integer uid);
     /**
      * @describe 获取用户所有的地址列表
      */

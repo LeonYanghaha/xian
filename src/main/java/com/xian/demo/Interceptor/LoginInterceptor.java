@@ -1,6 +1,7 @@
 package com.xian.demo.Interceptor;
 
 import com.xian.demo.entity.User;
+import com.xian.demo.util.Common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import com.xian.demo.util.JWTTool;
 
 public class LoginInterceptor implements HandlerInterceptor {
     private static final Logger log = LoggerFactory.getLogger(LoginInterceptor.class);
+
     /**
      * 进入controller层之前拦截请求
      * @param httpServletRequest
@@ -33,14 +35,15 @@ public class LoginInterceptor implements HandlerInterceptor {
             httpServletResponse.setStatus(HttpStatus.OK.value());
             return false;
         }
-        String token = httpServletRequest.getHeader("token");
+
+        String token = httpServletRequest.getHeader(Common.getReqHeadKey());
         if(token == null || "".equals(token)){
             return false;
         }
         System.out.println(token);
         User user = JWTTool.unsign(token, User.class);
         if(user != null){
-            httpServletRequest.setAttribute("currentUser", user);
+            httpServletRequest.setAttribute(Common.getReqUserKey(), user);
             return true;
         }else{
             return false;

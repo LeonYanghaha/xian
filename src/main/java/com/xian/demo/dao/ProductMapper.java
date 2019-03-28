@@ -36,7 +36,7 @@ public interface ProductMapper {
      * @return {Product}
      */
     @Select(value = "<script>" +
-                    "SELECT pid, stock FROM PRODUCT " +
+                    "SELECT pid, price, stock FROM PRODUCT " +
                     "WHERE pid In " +
                     "<foreach item='item' index='index' collection='pidList' open='(' separator=',' close=')' >" +
                     "   #{item} "+

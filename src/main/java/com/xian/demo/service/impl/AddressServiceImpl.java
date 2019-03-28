@@ -17,6 +17,11 @@ public class AddressServiceImpl implements AddressService {
     private AddressMapper addressMapper;
 
     @Override
+    public List<Address> checkAid(@NotNull(message = "aid不能为空") Integer aid, @NotNull(message = "uid不能为空") Integer uid) {
+        return addressMapper.checkAid(aid, uid);
+    }
+
+    @Override
     public List<Address> getAddressList(@NotNull(message = "uid不能为空") Integer uid) {
         return addressMapper.getAddressList(uid);
     }

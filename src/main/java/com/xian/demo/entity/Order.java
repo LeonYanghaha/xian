@@ -43,7 +43,7 @@ public class Order {
         this.submitTime = submitTime;
         this.payTime = payTime;
         this.pushTime = pushTime;
-        ReceivedTime = receivedTime;
+        this.ReceivedTime = receivedTime;
         this.address = address;
         this.totalPrice = totalPrice;
         this.meta = meta;

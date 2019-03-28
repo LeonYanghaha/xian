@@ -13,6 +13,17 @@ import com.xian.demo.entity.Order;
 @Mapper
 public interface OrderMapper {
 
+
+    /**
+     * @describe 给订单付款
+     */
+    @Update(value = "UPDATE xian.`ORDER` " +
+            "SET status = 30 , payTime = NOW() " +
+            "WHERE oid = #{oid} AND uid = #{uid}")
+    Integer payOrder(@Param("oid") Integer oid,
+                     @Param("uid") Integer uid);
+
+
     /**
      * @describe  通过订单ID获取用户的订单详情
      */
@@ -37,6 +48,7 @@ public interface OrderMapper {
                             "meta, orderDetial, status, aname, aadderss, atag, aphone " +
                     "FROM xian.user_order_detial " +
                     "WHERE uid = #{uid} " +
+                     "ORDER BY submitTime DESC " +
                     "LIMIT 1, 10")
     @Results({
             @Result(property = "orderDetial",
@@ -51,16 +63,17 @@ public interface OrderMapper {
      */
     @Update(value = "UPDATE xian.`ORDER` " +
             "SET status = 80 " +
-            "WHERE oid = #{oid} AND uid = #{uid} AND status = 20 ")
+            "WHERE oid = #{oid} AND uid = #{uid} ")
     Integer cancelOrder(@Param("oid")Integer oid,
                         @Param("uid")Integer uid);
 
     /**
      * @describe 提交订单
      */
-    @Insert(value = "INSERT INTO xian.`ORDER` (uid, submitTime, aid, totalPrice, meta, status) " +
-                    "VALUES(#{uid}, NOW(), #{aid}, #{totalPrice}, #{meta}, 10)")
+    @Insert(value = "INSERT INTO xian.`ORDER` (oid, uid, submitTime, aid, totalPrice, meta, status) " +
+                    "VALUES(#{uid}, #{oid}, NOW(), #{aid}, #{totalPrice}, #{meta}, 10)")
     Integer submitOrder(@Param("uid") Integer uid,
+                        @Param("oid") Integer oid,
                         @Param("aid") Integer aid,
                         @Param("totalPrice") Double totalPrice,
                         @Param("meta") String meta);
@@ -82,7 +95,7 @@ public interface OrderMapper {
      * @describe 确认收货
      */
     @Update(value = "UPDATE xian.`ORDER` " +
-                    "SET status = 60 " +
+                    "SET status = 60 , ReceivedTime = NOW() " +
                     "WHERE oid=#{oid} AND uid=#{uid}")
     Integer recivedOrder(@Param("oid")Integer oid,
                          @Param("uid")Integer uid);

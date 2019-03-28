@@ -12,6 +12,12 @@ import java.util.List;
 @Mapper
 public interface AddressMapper {
 
+    @Select("SELECT aid, uid, `time`, aname, aadderss, atag, aphone " +
+            "FROM xian.ADDRESS " +
+            "WHERE aid=#{aid} AND uid = #{uid}")
+    List<Address> checkAid(@Param("aid") Integer aid,
+                     @Param("uid") Integer uid);
+
     /**
      * @describe 获取用户所有的地址列表
      */
