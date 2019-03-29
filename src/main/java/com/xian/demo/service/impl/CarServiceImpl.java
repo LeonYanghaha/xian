@@ -21,21 +21,22 @@ public class CarServiceImpl implements CarService {
     private ProductMapper productMapper;
 
     @Override
-    public Integer addItemToCar(@Valid Car car) {
+    public Integer addItemToCar(@NotNull(message = "用户ID不能为空") Integer uid,
+                                @NotNull(message = "商品ID不能为空") Integer pid) {
         // 在插入之前应该有两个步骤
         // 1. pid 是否有效
         // 2. 商品是否已经在购物车
-        Integer isExist = carMapper.checkPidIsExist(car.getUid(), car.getPid());
+        Integer isExist = carMapper.checkPidIsExist(uid, pid);
         if(isExist>=1){ // 已经存在于购物车的情况
             System.out.println("已经在购物车的情况");
             return 0;
         }
-        Integer validatedPid = productMapper.validatedPid(car.getPid());
+        Integer validatedPid = productMapper.validatedPid(pid);
         if(validatedPid != 1){ // 商品表中不存在的情况
             System.out.println("不存在");
             return 0;
         }
-        return carMapper.addItemToCar(car.getUid(), car.getPid());
+        return carMapper.addItemToCar(uid, pid);
     }
 
     @Override

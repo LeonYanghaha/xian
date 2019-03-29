@@ -70,13 +70,14 @@ public interface OrderMapper {
     /**
      * @describe 提交订单
      */
-    @Insert(value = "INSERT INTO xian.`ORDER` (oid, uid, submitTime, aid, totalPrice, meta, status) " +
-                    "VALUES(#{uid}, #{oid}, NOW(), #{aid}, #{totalPrice}, #{meta}, 10)")
+    @Insert(value = "INSERT INTO xian.`ORDER` (oid, uid, submitTime, aid, totalPrice, meta, status, name) " +
+                    "VALUES(#{oid}, #{uid}, NOW(), #{aid}, #{totalPrice}, #{meta}, 10, #{name})")
     Integer submitOrder(@Param("uid") Integer uid,
                         @Param("oid") Integer oid,
                         @Param("aid") Integer aid,
                         @Param("totalPrice") Double totalPrice,
-                        @Param("meta") String meta);
+                        @Param("meta") String meta,
+                        @Param("name") String name);
 
 
     /**

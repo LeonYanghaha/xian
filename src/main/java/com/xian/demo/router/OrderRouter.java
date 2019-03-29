@@ -55,7 +55,7 @@ public class OrderRouter {
         }else if(tempResult == 0){
             return Result.errorMsg("表更新失败");
         }else{
-            return Result.ok("success");
+            return Result.ok(tempResult); // 将oid 返回给页面
         }
     }
 

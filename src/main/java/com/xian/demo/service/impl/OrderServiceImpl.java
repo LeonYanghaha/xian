@@ -73,15 +73,13 @@ public class OrderServiceImpl implements OrderService{
         }
 
         Double tempTotalPrice = product.getPrice() * number;
-        if(tempTotalPrice.equals(totalPrice)){ //总价计算不一致
-            System.out.println(totalPrice+"totalPrice");
-            System.out.println(tempTotalPrice+"tempTotalPrice");
+        if(!tempTotalPrice.equals(totalPrice)){ //总价计算不一致
             return -1;
         }
 
         Integer oid = Common.getOrderId();
         // 往订单表中写入数据
-        Integer tempResultToOrder = orderMapper.submitOrder(uid, oid, aid, totalPrice, meta);
+        Integer tempResultToOrder = orderMapper.submitOrder(uid, oid, aid, totalPrice, meta, name);
         if(tempResultToOrder != 1){
             System.out.println("order");
             return -1;  //数据库写入失败
@@ -97,37 +95,7 @@ public class OrderServiceImpl implements OrderService{
             System.out.println("set stock");
             return -1;
         }
-        return 1;
-
-//        Boolean insertIsOk = false;
-//        for (int i = 0; i < orderDetialList.size(); i++) {
-//            OrderDetial orderDetial = orderDetialList.get(i);
-//            Integer tempIsOk = orderMapper.insertOrderDetial(orderDetial.getOid(), orderDetial.getPid(),
-//                    orderDetial.getNumber(), orderDetial.getPrice(), orderDetial.getMeta());
-//
-//            if(tempIsOk != 1){ // 插入失败的情况
-//                insertIsOk = true;
-//            }
-//        }
-//
-//        if(insertIsOk){
-//            return 0;
-//        }
-
-//        Boolean isErrorFlag = false;
-//        // 修改库存和销量
-//        for (int i = 0; i < orderDetialList.size() ; i++) {
-//            Integer tempResult = productMapper.setProductStockAndSellNumber(orderDetialList.get(i).getPid(),
-//                                                                orderDetialList.get(i).getNumber());
-//            if(tempResult != 1 ){ // 更新失败的情况
-//                isErrorFlag = true;
-//                break;
-//            }
-//        }
-//        if(isErrorFlag){
-//            return 0;
-//        }
-//        return 1;
+        return oid;
     }
 
     public Integer recivedOrder(Integer oid, Integer uid) {

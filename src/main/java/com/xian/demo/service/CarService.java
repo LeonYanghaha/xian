@@ -10,7 +10,8 @@ import java.util.List;
 @Validated
 public interface CarService {
 
-    Integer addItemToCar(@Valid Car car);
+    Integer addItemToCar(@NotNull(message = "用户ID不能为空") Integer uid,
+                         @NotNull(message = "商品ID不能为空") Integer pid);
 
     List<CarDetial> getCarList(Integer uid);
 

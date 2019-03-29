@@ -23,15 +23,14 @@ public class CarRouter {
     @Autowired
     private CarService carService;
 
-    @Value("reqUserKey")
-    private String reqUserKey;
-
     @RequestMapping(value = "addItemToCar", method = RequestMethod.POST)
-    public Result addItemToCar(Car car, HttpServletRequest httpServletRequest){
+    public Result addItemToCar(@Param("pid") Integer pid,
+                               HttpServletRequest httpServletRequest){
 
-        User user = (User) httpServletRequest.getAttribute(reqUserKey);
-        car.setUid(user.getId());
-        Integer tempFlag = carService.addItemToCar(car);
+        User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
+        System.out.println(user.toString());
+        System.out.println(pid);
+        Integer tempFlag = carService.addItemToCar(user.getId(), pid);
         if(tempFlag == 1){
             return Result.ok("success",null);
         }else{
@@ -56,7 +55,5 @@ public class CarRouter {
         }else{
             return Result.errorMsg("删除失败");
         }
-
     }
-
 }
