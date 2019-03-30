@@ -10,6 +10,13 @@ public class Common {
     private static final String reqUserKey = "currentUser";
     private static final String reqHeadKey = "token";
 
+    public static Integer checkParam(Integer val, Integer defauleVal){
+        if(val<1){
+            return defauleVal;
+        }else{
+            return val;
+        }
+    }
 
     public static Integer getOrderId(){
         Integer MAX = 999999999;

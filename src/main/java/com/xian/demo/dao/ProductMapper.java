@@ -119,6 +119,12 @@ public interface ProductMapper {
                                     @Param("startNo") Integer startNo,
                                     @Param("pageSize") Integer pageSize);
 
+//    type , pageShowNumber, currentPage
+
+    @Select("select count(0) from XIAN.PRODUCT where status = 0")
+    Integer countProduct();
+
+
     // 查询productType
     @Select("SELECT PTYPE, PTYPENAME " +
             "FROM PRODUCTTYPE " +

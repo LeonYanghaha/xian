@@ -49,14 +49,16 @@ public interface OrderMapper {
                     "FROM xian.user_order_detial " +
                     "WHERE uid = #{uid} " +
                      "ORDER BY submitTime DESC " +
-                    "LIMIT 1, 10")
+                    "LIMIT #{startIndex}, #{endIndex}")
     @Results({
             @Result(property = "orderDetial",
                     column = "ooid",
                     many = @Many(select = "com.xian.demo.dao.OrderMapper.getOrderDetial")
             )
     })
-    List<Order> getOrderList(@Param("uid") Integer uid);
+    List<Order> getOrderList(@Param("uid") Integer uid,
+                             @Param("startIndex") Integer startIndex,
+                             @Param("endIndex") Integer endIndex);
 
     /**
      * @describe 用户主动取消订单。。。。仅限于未付款的订单
@@ -105,9 +107,14 @@ public interface OrderMapper {
     /**
      * @describe 获取订单详情表中的数据
      */
-    @Select("SELECT oid, pid, `number`, price, meta " +
-            "FROM xian.ORDERDETIAL " +
-            "WHERE oid = #{oid} ")
+    @Select("SELECT * from(" +
+                "SELECT oid, ORDERDETIAL.pid, `number`, ORDERDETIAL.price, meta, product.name AS pname " +
+                "FROM xian.ORDERDETIAL LEFT JOIN PRODUCT on product.pid = ORDERDETIAL.pid) AS temp " +
+            "where temp.oid= #{oid} ")
     List<OrderDetial> getOrderDetial(@Param("oid") Integer oid);
+
+
+    @Select("select count(0) from XIAN.order where Uid = #{uid}")
+    Integer getOrderCount(@Param("uid") Integer uid);
 
 }

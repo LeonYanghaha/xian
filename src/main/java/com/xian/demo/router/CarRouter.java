@@ -9,10 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -39,7 +36,12 @@ public class CarRouter {
     }
 
     @RequestMapping(value = "getCarList", method = RequestMethod.POST)
-    public Result getCarList(HttpServletRequest httpServletRequest){
+    public Result getCarList(HttpServletRequest httpServletRequest,
+                             @RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
+                             @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage){
+        //TODO 2019/3/30 5:38 PM  分页
+        pageShowNumber = Common.checkParam(pageShowNumber, 10);
+        currentPage = Common.checkParam(currentPage, 1);
 
         User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
         return Result.ok(carService.getCarList(user.getId()));

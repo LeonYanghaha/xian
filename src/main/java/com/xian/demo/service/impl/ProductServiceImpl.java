@@ -1,6 +1,7 @@
 package com.xian.demo.service.impl;
 
 import com.xian.demo.dao.ProductMapper;
+import com.xian.demo.entity.Page;
 import com.xian.demo.entity.Product;
 import com.xian.demo.service.ProductService;
 import org.slf4j.Logger;
@@ -29,11 +30,31 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.findProductById(id);
     }
 
-    public  List<Product> findProductByType(Integer type , Integer startNo,Integer pageSize){
-            return productMapper.findProductByType(type , startNo, pageSize);
+    public  Page findProductByType(Integer type , Integer pageShowNumber, Integer currentPage){
+
+        Integer count = productMapper.countProduct();
+        Page page = new Page();
+        page.setAllProp(pageShowNumber, currentPage, count);
+        List<Product> productList = productMapper.findProductByType(type , page.getStartIndex(), page.getEndIndex());
+        if(productList.size()<=0){
+            return null;
+        }else{
+            page.setData(productList);
+            return page;
+        }
     }
 
-    public List<Product> findAll(Integer startNo,Integer pageSize){
-        return productMapper.findAll(startNo,pageSize);
+    public Page findAll(Integer pageShowNumber, Integer currentPage){
+
+        Integer count = productMapper.countProduct();
+        Page page = new Page();
+        page.setAllProp(pageShowNumber, currentPage, count);
+        List<Product> productList = productMapper.findAll(page.getStartIndex(), page.getEndIndex());
+        if(productList.size()<=0){
+            return null;
+        }else{
+            page.setData(productList);
+            return page;
+        }
     }
 }

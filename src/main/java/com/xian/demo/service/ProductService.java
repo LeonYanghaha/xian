@@ -1,6 +1,7 @@
 package com.xian.demo.service;
 
 import com.xian.demo.entity.Product;
+import com.xian.demo.entity.Page;
 
 import java.util.List;
 
@@ -13,10 +14,8 @@ public interface ProductService {
 
 //    Integer saveProduct(Product product);
 
-    List<Product> findAll(Integer startNo,Integer pageSize);
-
+    Page findAll(Integer pageShowNumber, Integer currentPage);
     Product findProductById(Integer id);
-
-    List<Product> findProductByType(Integer type , Integer startNo,Integer pageSize);
+    Page findProductByType(Integer type , Integer pageShowNumber, Integer currentPage);
 
 }

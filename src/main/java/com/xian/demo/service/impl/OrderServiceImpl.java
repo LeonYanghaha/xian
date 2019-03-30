@@ -32,15 +32,19 @@ public class OrderServiceImpl implements OrderService{
         return orderMapper.getOrderById(oid, uid);
     }
 
-    public List<Order> getOrderList(Integer uid) {
+    public Page getOrderList(Integer uid, Integer pageShowNumber, Integer currentPage) {
 
-        List<Order> orderList = orderMapper.getOrderList(uid);
+        Integer count = orderMapper.getOrderCount(uid);
+        Page page = new Page();
+        page.setAllProp(pageShowNumber, currentPage, count);
+
+        List<Order> orderList = orderMapper.getOrderList(uid, page.getStartIndex(), page.getEndIndex());
         if(orderList.size()<=0){
             return null;
         }else{
-            return orderList;
+            page.setData(orderList);
+            return page;
         }
-
     }
 
     public Integer cancelOrder(Integer oid, Integer uid) {

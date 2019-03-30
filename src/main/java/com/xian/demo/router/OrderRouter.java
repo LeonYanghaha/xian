@@ -5,14 +5,8 @@ import com.xian.demo.service.OrderService;
 import com.xian.demo.util.Common;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -77,16 +71,28 @@ public class OrderRouter {
         }
     }
 
-    /**
+    /**import java.util.List;
+
      * @describe 获取订单列表
      * @param {String}
      * @return {String}
      */
     @RequestMapping(value = "getOrderList", method = RequestMethod.POST)
-    public Result getOrderList(HttpServletRequest httpServletRequest){
+    public Result getOrderList(HttpServletRequest httpServletRequest,
+                               @RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
+                               @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage){
+
+
+        pageShowNumber = Common.checkParam(pageShowNumber, 10);
+        currentPage = Common.checkParam(currentPage, 1);
 
         User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
-        return Result.ok(orderService.getOrderList(user.getId()));
+        Page page = orderService.getOrderList(user.getId(), pageShowNumber, currentPage);
+        if (page.equals(null)){
+            return Result.errorMsg("服务器异常");
+        }else{
+            return Result.ok(page);
+        }
     }
 
     /**
