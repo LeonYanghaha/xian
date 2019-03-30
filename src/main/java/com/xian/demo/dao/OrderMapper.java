@@ -28,7 +28,7 @@ public interface OrderMapper {
      * @describe  通过订单ID获取用户的订单详情
      */
     @Select(value = "SELECT oid, oid AS ooid, uid, submitTime, payTime, pushTime, ReceivedTime, aid, totalPrice, " +
-                         "meta, orderDetial, status, aname, aadderss, atag, aphone " +
+                         "meta, orderDetial, status, aname, name, aadderss, atag, aphone " +
                     "FROM xian.user_order_detial " +
                     "WHERE oid = #{oid} AND uid = #{uid} ")
     @Results({
