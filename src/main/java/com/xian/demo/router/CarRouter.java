@@ -1,14 +1,12 @@
 package com.xian.demo.router;
 
-import com.xian.demo.entity.Car;
 import com.xian.demo.entity.Result;
+import com.xian.demo.entity.Page;
 import com.xian.demo.entity.User;
 import com.xian.demo.service.CarService;
 import com.xian.demo.util.Common;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,12 +37,17 @@ public class CarRouter {
     public Result getCarList(HttpServletRequest httpServletRequest,
                              @RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
                              @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage){
-        //TODO 2019/3/30 5:38 PM  分页
         pageShowNumber = Common.checkParam(pageShowNumber, 10);
         currentPage = Common.checkParam(currentPage, 1);
 
         User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
-        return Result.ok(carService.getCarList(user.getId()));
+        Page page = carService.getCarList(user.getId(), pageShowNumber, currentPage);
+
+        if (null == page){
+            return Result.ok("服务器异常");
+        }else{
+            return Result.ok(page);
+        }
     }
 
     @RequestMapping(value = "removeItem", method = RequestMethod.POST)

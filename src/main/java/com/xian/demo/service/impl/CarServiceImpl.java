@@ -2,13 +2,12 @@ package com.xian.demo.service.impl;
 
 import com.xian.demo.dao.CarMapper;
 import com.xian.demo.dao.ProductMapper;
-import com.xian.demo.entity.Car;
 import com.xian.demo.entity.CarDetial;
+import com.xian.demo.entity.Page;
 import com.xian.demo.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -40,9 +39,18 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarDetial> getCarList(Integer uid) {
+    public Page getCarList(Integer uid, Integer pageShowNumber, Integer currentPage) {
 
-        return carMapper.getCarList(uid);
+        Integer tempCount = carMapper.carUserCount(uid);
+        Page page = new Page();
+        page.setAllProp(pageShowNumber, currentPage, tempCount);
+        List<CarDetial> carDetialList = carMapper.getCarList(uid, page.getStartIndex(), page.getEndIndex());
+        if(carDetialList.size()<=0){
+            return null;
+        }else{
+            page.setData(carDetialList);
+            return page;
+        }
     }
 
     @Override

@@ -32,7 +32,7 @@ public class ProductRouter {
         currentPage = Common.checkParam(currentPage, 1);
 
         Page page = productService.findAll(pageShowNumber, currentPage);
-        if(page.equals(null)){
+        if (null == page)  {
             return Result.errorMsg("暂无商品");
         }else{
             return Result.ok(page);

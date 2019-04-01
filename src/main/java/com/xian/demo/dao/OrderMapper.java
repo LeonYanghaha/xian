@@ -48,7 +48,7 @@ public interface OrderMapper {
                             "meta, orderDetial, status, aname, aadderss, atag, aphone " +
                     "FROM xian.user_order_detial " +
                     "WHERE uid = #{uid} " +
-                     "ORDER BY submitTime DESC " +
+                    "ORDER BY submitTime DESC " +
                     "LIMIT #{startIndex}, #{endIndex}")
     @Results({
             @Result(property = "orderDetial",
