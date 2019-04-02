@@ -50,7 +50,7 @@ public class ProductRouter {
         currentPage = Common.checkParam(currentPage, 1);
 
         Page page  = productService.findProductByType(type, pageShowNumber, currentPage);
-        if(page.equals(null) ){// 没有查到对应的商品
+        if (null == page){// 没有查到对应的商品
             return Result.errorMsg("没有对应的商品");
         }else{
             return Result.ok(page);
@@ -58,12 +58,12 @@ public class ProductRouter {
     }
 
     @RequestMapping(value = "findById/{id}",method = RequestMethod.GET)
-    public Result findProductById(@PathVariable(value = "id") Integer id){
+    public Result findProductById(@PathVariable(value = "id") Integer id) {
 
         Product product = productService.findProductById(id);
-        if(product==null){
+        if (product == null) {
             return Result.ok("没对对应的商品ID",null);
-        }else{
+        } else {
             return Result.ok(product);
         }
     }
