@@ -1,12 +1,13 @@
 package com.xian.demo.util;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.Random;
+import java.util.Date;
 
 @Component
 public class Common {
 
-    //TODO 2019/3/28 10:56 AM  @value的注解实在是搞不好了，看了好多的demo，还是null，算了，先就这样吧。后面再看。
     private static final String reqUserKey = "currentUser";
     private static final String reqHeadKey = "token";
 
@@ -23,16 +24,18 @@ public class Common {
         Integer MIN = 100000000;
         return Common.getRandom(MAX,MIN);
     }
-//
-//    public static Integer getProductId(){
-//        Integer MAX = 99999999;
-//        Integer MIN = 10000000;
-//        return Common.getRandom(MAX,MIN);
-//    }
     public static Integer getRandom(Integer MAX, Integer MIN){
         Random rand = new Random();
         return rand.nextInt(MAX - MIN + 1) + MIN;
     }
+
+    public static String getUserDate(String sformat) {
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat(sformat);
+        String dateString = formatter.format(currentTime);
+        return dateString;
+    }
+
 
 
     public static String getReqUserKey() {

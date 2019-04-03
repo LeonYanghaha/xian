@@ -1,6 +1,7 @@
 package com.xian.demo.service;
 
 import com.xian.demo.entity.Address;
+import com.xian.demo.entity.Page;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -15,7 +16,9 @@ public interface AddressService {
     /**
      * @describe 获取用户所有的地址列表
      */
-    List<Address> getAddressList(@NotNull(message = "uid不能为空")Integer uid);
+    Page getAddressList(@NotNull(message = "uid不能为空")Integer uid,
+                        Integer pageShowNumber,
+                        Integer currentPage);
 
     /**
      * @describe 保存一个地址

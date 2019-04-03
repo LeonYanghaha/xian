@@ -2,15 +2,20 @@ package com.xian.demo.service.impl;
 
 import com.xian.demo.dao.AddressMapper;
 import com.xian.demo.entity.Address;
+import com.xian.demo.entity.Page;
 import com.xian.demo.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Service
+@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
 public class AddressServiceImpl implements AddressService {
 
     @Autowired
@@ -22,8 +27,19 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<Address> getAddressList(@NotNull(message = "uid不能为空") Integer uid) {
-        return addressMapper.getAddressList(uid);
+    public Page getAddressList(@NotNull(message = "uid不能为空") Integer uid,
+                                        Integer pageShowNumber, Integer currentPage) {
+        Integer count = addressMapper.getCount(uid);
+        Page page = new Page();
+        page.setAllProp(pageShowNumber, currentPage, count);
+
+        List<Address>  addressList = addressMapper.getAddressList(uid, page.getStartIndex(), page.getEndIndex());
+        if(addressList.size()<=0){
+            return null;
+        }else{
+            page.setData(addressList);
+            return page;
+        }
     }
 
     @Override

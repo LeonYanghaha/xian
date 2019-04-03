@@ -3,9 +3,12 @@ package com.xian.demo.router;
 import com.xian.demo.entity.Result;
 import com.xian.demo.entity.User;
 import com.xian.demo.service.UserService;
+import com.xian.demo.service.impl.ProductServiceImpl;
 import com.xian.demo.util.Common;
 import com.xian.demo.util.JWTTool;
 import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +27,8 @@ public class UserRouter {
     private JWTTool jwtTool;
     @Autowired
     private Common common;
+    private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
     @RequestMapping(value = "changeHeadImage",method = RequestMethod.POST)
     public Result changeHeadImage(HttpServletRequest request){
         return  Result.ok("ok");
@@ -34,8 +39,6 @@ public class UserRouter {
      * @param {String}
      * @return {String}
      */
-    //TODO 2019/3/24 3:53 PM  目前是基于session保存用户的登录状态的。
-    //TODO 2019/3/24 3:54 PM 但是前后端分离之后，session是没法用的。后面需要改成基于jwt或者token的
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public Result login(@RequestParam(value = "un") String un,
                         @RequestParam(value = "pw") String pw,
@@ -63,6 +66,7 @@ public class UserRouter {
                             BindingResult bindingResult,
                             @RequestParam String repw) {
 
+        logger.info("register--" +  new Date().toString() + user.toString());
         if(!repw.equals(user.getPw())){
             return  Result.errorMsg("两次输入的密码不一致");
         }

@@ -7,6 +7,9 @@ import com.xian.demo.service.OrderService;
 import com.xian.demo.util.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
  * @describe order的service层
  */
 @Service
+@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
 public class OrderServiceImpl implements OrderService{
 
     @Autowired
@@ -30,6 +34,20 @@ public class OrderServiceImpl implements OrderService{
 
     public V_user_order_detial getOrderById(Integer oid, Integer uid) {
         return orderMapper.getOrderById(oid, uid);
+    }
+
+    @Override
+    public Integer removeOrder(Integer oid, Integer uid) {
+
+        V_user_order_detial userOrder = orderMapper.getOrderById(oid, uid);
+        if(null == userOrder){ // 没有改订单的情况
+            return -1;
+        }
+        if (userOrder.getStatus()!=60 && userOrder.getStatus()!=80) {
+            return -2; // 当前订单不能删除
+        }
+        Integer integer = orderMapper.removeOrder(oid, uid);
+        return integer;
     }
 
     public Page getOrderList(Integer uid, Integer pageShowNumber, Integer currentPage) {

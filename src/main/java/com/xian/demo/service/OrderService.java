@@ -18,4 +18,6 @@ public interface OrderService {
 //    确认收货
     Integer recivedOrder(Integer oid, Integer uid);
 
+    Integer removeOrder(Integer oid, Integer uid);
+
 }

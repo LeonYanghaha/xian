@@ -13,6 +13,10 @@ import com.xian.demo.entity.Order;
 @Mapper
 public interface OrderMapper {
 
+    @Delete("DELETE FROM xian.`ORDER` " +
+            "WHERE oid=#{oid} AND uid=#{uid}")
+    Integer removeOrder(@Param("oid") Integer oid,
+                        @Param("uid") Integer uid);
 
     /**
      * @describe 给订单付款
@@ -43,7 +47,6 @@ public interface OrderMapper {
     /**
      * @describe 获取用户的订单列表
      */
-    //TODO 2019/3/23 11:06 AM  订单列表页应该做分页查询
     @Select(value = "SELECT oid, oid AS ooid, uid, submitTime,name, payTime, pushTime, ReceivedTime, aid, totalPrice, " +
                             "meta, orderDetial, status, aname, aadderss, atag, aphone " +
                     "FROM xian.user_order_detial " +

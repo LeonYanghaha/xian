@@ -5,6 +5,7 @@ import com.xian.demo.service.OrderService;
 import com.xian.demo.util.Common;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,7 @@ public class OrderRouter {
     @RequestMapping(value = "payOrder", method = RequestMethod.POST)
     public Result payOrder(HttpServletRequest httpServletRequest,
                            @Param("oid") Integer oid){
+
         User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
         if(orderService.payOrder(oid, user.getId()) == 1){
             return Result.ok("支付成功");
@@ -31,8 +33,9 @@ public class OrderRouter {
     /**
      * @describe  提交订单
      * @param {String}
-     * @return {String}   aid=4&name=%E5%B0%8F%E7%B1%B39---1%2A1999&order_meta=we&pid=3&number=1&total_price=1999
+     * @return {String}
      */
+    @CacheEvict(value = "findProductById", key = "'-'+ #pid") // 有用户提交订单后，需要修改库存，所以这里清空缓存
     @RequestMapping(value = "submitOrder", method = RequestMethod.POST)
     public Result submitOrder(HttpServletRequest httpServletRequest,
                               @Param("aid") Integer aid,
@@ -129,5 +132,18 @@ public class OrderRouter {
         }else{
             return Result.errorMsg("操作失败");
         }
+    }
+    @RequestMapping(value = "removeOrder", method = RequestMethod.POST)
+    public Result removeOrder(HttpServletRequest httpServletRequest,
+                              @Param("oid") Integer oid){
+        User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
+        Integer tempResult = orderService.recivedOrder(oid , user.getId());
+        if(tempResult == 1){
+            return Result.ok("success");
+        }else{
+            return Result.errorMsg("操作失败");
+        }
+
+
     }
 }

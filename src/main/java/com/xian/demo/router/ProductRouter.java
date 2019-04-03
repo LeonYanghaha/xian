@@ -7,6 +7,7 @@ import com.xian.demo.service.ProductService;
 import com.xian.demo.util.Common;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class ProductRouter {
     @Autowired
     private RedisTemplate redisTemplate;
 
-//    @Cacheable(value="product_all")
+    @Cacheable(value="product_all", key = "'-'+ #p0+'-'+#p1")
     @RequestMapping(value = "findAll",method = RequestMethod.POST)
     public Result findAll(@RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
                           @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage){
@@ -40,7 +41,7 @@ public class ProductRouter {
 
     }
 
-//    @Cacheable(value="product_type")
+    @Cacheable(value="findByType", key = "'-'+ #p1+'-'+#p2")
     @RequestMapping(value = "findByType",method = RequestMethod.POST)
     public Result findProductByType(@Param(value = "type") Integer type,
                                     @RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
@@ -50,13 +51,13 @@ public class ProductRouter {
         currentPage = Common.checkParam(currentPage, 1);
 
         Page page  = productService.findProductByType(type, pageShowNumber, currentPage);
-        if (null == page){// 没有查到对应的商品
+        if (null == page){ // 没有查到对应的商品
             return Result.errorMsg("没有对应的商品");
         }else{
             return Result.ok(page);
         }
     }
-
+    @Cacheable(value="findProductById", key = "'-'+ #p0")
     @RequestMapping(value = "findById/{id}",method = RequestMethod.GET)
     public Result findProductById(@PathVariable(value = "id") Integer id) {
 

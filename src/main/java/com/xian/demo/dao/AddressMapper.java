@@ -23,8 +23,11 @@ public interface AddressMapper {
      */
     @Select("SELECT aid, uid, `time`, aname, aadderss, atag, aphone  " +
             "FROM xian.ADDRESS " +
-            "WHERE uid = #{uid}; ")
-    List<Address> getAddressList(Integer uid);
+            "WHERE uid = #{uid} " +
+            "LIMIT #{startIndex}, #{endIndex} ")
+    List<Address> getAddressList(@Param("uid") Integer uid,
+                                 @Param("startIndex") Integer startIndex,
+                                 @Param("endIndex") Integer endIndex);
 
     /**
      * @describe 保存一个地址
@@ -45,5 +48,10 @@ public interface AddressMapper {
             "WHERE aid = #{aid} AND uid = #{uid} ")
     Integer removeAddress(@Param("aid") Integer aid,
                           @Param("uid") Integer uid);
+
+
+    @Select("select count(0) from xian.ADDRESS " +
+            "where uid = #{uid}")
+    Integer getCount(@Param("uid") Integer uid);
 
 }

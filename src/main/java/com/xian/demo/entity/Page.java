@@ -1,13 +1,16 @@
 package com.xian.demo.entity;
 
-public class Page {
+import java.io.Serializable;
+
+public class Page implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Integer count; //总数
     private Integer pageShowNumber; // 页面展示的条数
     private Integer currentPage; // 当前的页数
     private Integer totalPage; // 总页数
     private Integer startIndex;
-    private Integer endIndex;
+    private Integer endIndex;  // 这个属性值的名字没弄好,不应该是endIndex,应该是size之类的。这个原因是我对于limit x,y的两个参数理解不熟悉导致的
     private Object data;
 
     public Page() {

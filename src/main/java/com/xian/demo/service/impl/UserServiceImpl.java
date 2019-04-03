@@ -5,16 +5,19 @@ import com.xian.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.xian.demo.entity.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
 @Service
+@Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
 public class UserServiceImpl implements UserService {
 
 
     @Autowired
     private UserMapper userMapper;
-
     public Boolean checkUn(String un){
         User user = userMapper.checkUn(un);
         if(user == null){
@@ -23,7 +26,6 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
-
     public User login(String un, String pw){
         User user = userMapper.login(un,pw);
         if(user == null){// 登录失败的情况

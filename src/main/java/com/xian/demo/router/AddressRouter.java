@@ -1,6 +1,7 @@
 package com.xian.demo.router;
 
 import com.xian.demo.entity.Address;
+import com.xian.demo.entity.Page;
 import com.xian.demo.entity.Result;
 import com.xian.demo.entity.User;
 import com.xian.demo.service.AddressService;
@@ -25,11 +26,16 @@ public class AddressRouter {
                                  @RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
                                  @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage){
 
-        //TODO 2019/3/30 5:38 PM  分页
         pageShowNumber = Common.checkParam(pageShowNumber, 10);
         currentPage = Common.checkParam(currentPage, 1);
         User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
-        return Result.ok(addressService.getAddressList(user.getId()));
+
+        Page page = addressService.getAddressList(user.getId(), pageShowNumber, currentPage);
+        if(null == page){
+            return Result.ok("none");
+        }else{
+            return Result.ok(page);
+        }
     }
 
     @RequestMapping(value = "saveAddress", method = RequestMethod.POST)
@@ -59,7 +65,5 @@ public class AddressRouter {
         }else{
             return Result.errorMsg("未知错误");
         }
-
     }
-
 }
