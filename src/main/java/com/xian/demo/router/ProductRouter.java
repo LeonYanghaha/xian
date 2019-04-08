@@ -57,6 +57,7 @@ public class ProductRouter {
             return Result.ok(page);
         }
     }
+    //TODO 2019/4/8 10:47 AM  指定缓存的时效
     @Cacheable(value="findProductById", key = "'-'+ #p0")
     @RequestMapping(value = "findById/{id}",method = RequestMethod.GET)
     public Result findProductById(@PathVariable(value = "id") Integer id) {

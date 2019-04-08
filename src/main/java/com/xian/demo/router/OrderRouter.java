@@ -74,8 +74,7 @@ public class OrderRouter {
         }
     }
 
-    /**import java.util.List;
-
+    /**
      * @describe 获取订单列表
      * @param {String}
      * @return {String}
@@ -84,7 +83,6 @@ public class OrderRouter {
     public Result getOrderList(HttpServletRequest httpServletRequest,
                                @RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
                                @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage){
-
 
         pageShowNumber = Common.checkParam(pageShowNumber, 10);
         currentPage = Common.checkParam(currentPage, 1);
