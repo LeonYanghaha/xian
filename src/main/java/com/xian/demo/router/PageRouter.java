@@ -16,13 +16,12 @@ import java.util.Map;
 @RequestMapping(value = "page/")
 public class PageRouter {
 
-
-
     /**
      * @describe
      */
     @RequestMapping(value = "getIndexSlide")
     public Result getIndexSlide(){
+
         Map<String, String> imgMap1 = new HashMap<>(),imgMap2= new HashMap<>(),
                             imgMap3= new HashMap<>(),imgMap4 = new HashMap<>();
 

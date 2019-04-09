@@ -8,7 +8,6 @@ import com.xian.demo.util.Common;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +20,6 @@ public class ProductRouter {
     private ProductService productService;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     @Cacheable(value="product_all", key = "'-'+ #p0+'-'+#p1")
     @RequestMapping(value = "findAll",method = RequestMethod.POST)

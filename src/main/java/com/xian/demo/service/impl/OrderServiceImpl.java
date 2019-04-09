@@ -5,14 +5,18 @@ import com.xian.demo.dao.ProductMapper;
 import com.xian.demo.entity.*;
 import com.xian.demo.service.OrderService;
 import com.xian.demo.util.Common;
+import com.xian.demo.util.RedisTool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 /**
  * @describe order的service层
  */
@@ -27,10 +31,20 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private AddressMapper addressMapper;
 
+    private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     @Override
     public Integer payOrder(Integer oid, Integer uid) {
-        return orderMapper.payOrder(oid, uid);
+
+        Integer tempStatus = orderMapper.payOrder(oid, uid);
+        if (tempStatus == 1) {
+            redisTool.removeOrderFromQueue(uid, oid);
+            return 1;
+        } else {
+            return 0;
+        }
     }
+    @Autowired
+    private RedisTool redisTool;
 
     public V_user_order_detial getOrderById(Integer oid, Integer uid) {
         return orderMapper.getOrderById(oid, uid);
@@ -67,6 +81,10 @@ public class OrderServiceImpl implements OrderService{
 
     public Integer cancelOrder(Integer oid, Integer uid) {
         // 取消订单的时候，应该先检查该订单是否付款。只有未付款的订单才能取消
+         V_user_order_detial order = orderMapper.getOrderById(oid, uid);
+         if (!order.getStatus().equals(10)) {
+            return 0;
+         }
         return orderMapper.cancelOrder(oid, uid);
     }
 //    aid, name, meta, pid, number, totalPrice, user.getId()
@@ -99,7 +117,7 @@ public class OrderServiceImpl implements OrderService{
             return -1;
         }
 
-        Integer oid = Common.getOrderId();
+        Integer oid = Common.getOrderId();// 商品ID
         // 往订单表中写入数据
         Integer tempResultToOrder = orderMapper.submitOrder(uid, oid, aid, totalPrice, meta, name);
         if(tempResultToOrder != 1){
@@ -117,6 +135,9 @@ public class OrderServiceImpl implements OrderService{
             System.out.println("set stock");
             return -1;
         }
+
+        // 代码执行到这里，就是往数据库里成功插入了订单信息。
+        redisTool.orderToQueue(uid, oid, Integer.valueOf(Common.timeStamp()));
         return oid;
     }
 

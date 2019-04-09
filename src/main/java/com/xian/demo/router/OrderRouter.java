@@ -14,6 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("order/")
 public class OrderRouter {
 
+    /**
+    *  1.下订单时，将ID存入Redis
+    *  2.取消订单，删除订单，支付订单等操作时，删除Redis中的状态
+    *  3.剩下的订单，超时未支付的，就修改数据库中的状态
+    * */
+
     @Autowired
     private OrderService orderService;
 
@@ -134,6 +140,7 @@ public class OrderRouter {
     @RequestMapping(value = "removeOrder", method = RequestMethod.POST)
     public Result removeOrder(HttpServletRequest httpServletRequest,
                               @Param("oid") Integer oid){
+        // 删除订单时，只能删除已完成的订单 用户主动取消的未支付订单
         User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
         Integer tempResult = orderService.recivedOrder(oid , user.getId());
         if(tempResult == 1){

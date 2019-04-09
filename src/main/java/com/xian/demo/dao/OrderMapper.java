@@ -73,6 +73,15 @@ public interface OrderMapper {
                         @Param("uid")Integer uid);
 
     /**
+     * @describe 系统自动关闭订单，限于超时未支付的订单
+     */
+    @Update(value = "UPDATE xian.`ORDER` " +
+            "SET status = 70 " +
+            "WHERE oid = #{oid} AND uid = #{uid} ")
+    Integer closeOrder(@Param("oid")Integer oid,
+                       @Param("uid")Integer uid);
+
+    /**
      * @describe 提交订单
      */
     @Insert(value = "INSERT INTO xian.`ORDER` (oid, uid, submitTime, aid, totalPrice, meta, status, name) " +
