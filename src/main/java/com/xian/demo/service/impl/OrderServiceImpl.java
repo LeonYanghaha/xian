@@ -73,6 +73,9 @@ public class OrderServiceImpl implements OrderService{
     public Page getOrderList(Integer uid, Integer pageShowNumber, Integer currentPage) {
 
         Integer count = orderMapper.getOrderCount(uid);
+        if (count == 0) {
+            return null;
+        }
         Page page = new Page();
         page.setAllProp(pageShowNumber, currentPage, count);
 

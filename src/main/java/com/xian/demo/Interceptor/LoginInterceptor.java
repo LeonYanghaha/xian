@@ -44,6 +44,10 @@ public class LoginInterceptor implements HandlerInterceptor {
         User user = JWTTool.unsign(token, User.class);
         if(user != null){
             httpServletRequest.setAttribute(Common.getReqUserKey(), user);
+            // 进入到这里的，都是成功登录的，需要重新计算token，并写入header
+            String newToken = JWTTool.sign(user,60L* 1000L* 30L);
+            System.out.println(newToken);
+            httpServletResponse.setHeader(Common.getReqUserKey(), newToken);
             return true;
         }else{
             return false;

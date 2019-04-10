@@ -37,6 +37,9 @@ public class ProductServiceImpl implements ProductService {
 
         logger.warn("cache miss--"+ Thread.currentThread().getStackTrace()[1].getMethodName() + Common.getUserDate("yyyy-mm-dd  HH:mm:ss"));
         Integer count = productMapper.countProduct();
+        if (count == 0) {
+            return null;
+        }
         Page page = new Page();
         page.setAllProp(pageShowNumber, currentPage, count);
         List<Product> productList = productMapper.findProductByType(type , page.getStartIndex(), page.getEndIndex());
@@ -52,6 +55,9 @@ public class ProductServiceImpl implements ProductService {
         logger.warn("cache miss--"+ Thread.currentThread().getStackTrace()[1].getMethodName() + Common.getUserDate("yyyy-mm-dd  HH:mm:ss"));
 
         Integer count = productMapper.countProduct();
+        if (count == 0) {
+            return null;
+        }
         Page page = new Page();
         page.setAllProp(pageShowNumber, currentPage, count);
         List<Product> productList = productMapper.findAll(page.getStartIndex(), page.getEndIndex());

@@ -95,11 +95,7 @@ public class OrderRouter {
 
         User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
         Page page = orderService.getOrderList(user.getId(), pageShowNumber, currentPage);
-        if (null == page) {
-            return Result.errorMsg("服务器异常");
-        }else{
-            return Result.ok(page);
-        }
+        return Result.ok(page);
     }
 
     /**

@@ -46,6 +46,9 @@ public class CarServiceImpl implements CarService {
     public Page getCarList(Integer uid, Integer pageShowNumber, Integer currentPage) {
 
         Integer tempCount = carMapper.carUserCount(uid);
+        if (tempCount == 0) {
+            return null;
+        }
         Page page = new Page();
         page.setAllProp(pageShowNumber, currentPage, tempCount);
         List<CarDetial> carDetialList = carMapper.getCarList(uid, page.getStartIndex(), page.getEndIndex());

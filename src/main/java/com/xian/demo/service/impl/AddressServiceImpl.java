@@ -30,6 +30,9 @@ public class AddressServiceImpl implements AddressService {
     public Page getAddressList(@NotNull(message = "uid不能为空") Integer uid,
                                         Integer pageShowNumber, Integer currentPage) {
         Integer count = addressMapper.getCount(uid);
+        if (count == 0) {
+            return null;
+        }
         Page page = new Page();
         page.setAllProp(pageShowNumber, currentPage, count);
 
