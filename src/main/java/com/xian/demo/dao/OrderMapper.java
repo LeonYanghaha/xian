@@ -3,6 +3,7 @@ package com.xian.demo.dao;
 import com.xian.demo.entity.OrderDetial;
 import com.xian.demo.entity.V_user_order_detial;
 import org.apache.ibatis.annotations.*;
+import java.util.Date;
 import java.util.List;
 import com.xian.demo.entity.Order;
 
@@ -85,12 +86,13 @@ public interface OrderMapper {
      * @describe 提交订单
      */
     @Insert(value = "INSERT INTO xian.`ORDER` (oid, uid, submitTime, aid, totalPrice, meta, status, name) " +
-                    "VALUES(#{oid}, #{uid}, NOW(), #{aid}, #{totalPrice}, #{meta}, 10, #{name})")
+                    "VALUES(#{oid}, #{uid}, #{submitDate}, #{aid}, #{totalPrice}, #{meta}, 10, #{name})")
     Integer submitOrder(@Param("uid") Integer uid,
                         @Param("oid") Integer oid,
                         @Param("aid") Integer aid,
                         @Param("totalPrice") Double totalPrice,
                         @Param("meta") String meta,
+                        @Param("submitDate") Date submitDate,
                         @Param("name") String name);
 
 

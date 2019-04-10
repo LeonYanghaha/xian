@@ -1,4 +1,5 @@
 package com.xian.demo.util;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -29,6 +30,12 @@ public class Common {
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(new Date(Long.valueOf(seconds+"000")));
+    }
+
+    public static Integer date2TimeStamp(Date date){
+
+        Long temp =  date.getTime()/1000;
+        return Integer.valueOf(temp+"");
     }
 
     public static String date2TimeStamp(String date_str,String format){

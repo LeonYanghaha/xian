@@ -1,4 +1,5 @@
 package com.xian.demo.service.impl;
+
 import com.xian.demo.dao.AddressMapper;
 import com.xian.demo.dao.OrderMapper;
 import com.xian.demo.dao.ProductMapper;
@@ -9,7 +10,6 @@ import com.xian.demo.util.RedisTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -35,12 +35,17 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Integer payOrder(Integer oid, Integer uid) {
 
+        // 先检查是否存在该订单
+        V_user_order_detial order_detial = orderMapper.getOrderById(oid, uid);
+        if(null== order_detial){
+            return -1;
+        }
         Integer tempStatus = orderMapper.payOrder(oid, uid);
         if (tempStatus == 1) {
-            redisTool.removeOrderFromQueue(uid, oid);
+            redisTool.removeOrderFromQueue(uid, oid, order_detial.getSubmitTime());
             return 1;
         } else {
-            return 0;
+            return -1;
         }
     }
     @Autowired
@@ -54,10 +59,11 @@ public class OrderServiceImpl implements OrderService{
     public Integer removeOrder(Integer oid, Integer uid) {
 
         V_user_order_detial userOrder = orderMapper.getOrderById(oid, uid);
+
         if(null == userOrder){ // 没有改订单的情况
             return -1;
         }
-        if (userOrder.getStatus()!=60 && userOrder.getStatus()!=80) {
+        if (userOrder.getStatus()!=60 && userOrder.getStatus()!=80 && userOrder.getStatus()!=70) {
             return -2; // 当前订单不能删除
         }
         Integer integer = orderMapper.removeOrder(oid, uid);
@@ -82,17 +88,25 @@ public class OrderServiceImpl implements OrderService{
     public Integer cancelOrder(Integer oid, Integer uid) {
         // 取消订单的时候，应该先检查该订单是否付款。只有未付款的订单才能取消
          V_user_order_detial order = orderMapper.getOrderById(oid, uid);
+         if(null == order){ // 没有改订单的情况
+             return -1;
+         }
          if (!order.getStatus().equals(10)) {
             return 0;
          }
-        return orderMapper.cancelOrder(oid, uid);
+        Integer tempFlag = orderMapper.cancelOrder(oid, uid);
+        if(tempFlag.equals(1)){
+            redisTool.removeOrderFromQueue(uid, oid, order.getSubmitTime());
+            return 1;
+        }else{
+            return -1;
+        }
     }
-//    aid, name, meta, pid, number, totalPrice, user.getId()
     public Integer submitOrder(Integer aid, String name, String  meta, Integer pid,
                                Integer number, Double totalPrice, Integer uid) {
 //        1.检查库存，如果库存不够，返回, 检查传入的aid是否合法
 //        2.修改库存和sellNumber
-//        3.往order表中写入该订单, 并写入订单详情表
+//        3.往order表中写入该订单, 并写入订单详情表  写入Redis
         List<Integer> pidList = new ArrayList<>();
         pidList.add(pid);
         List<Product> productList = productMapper.getProductStock(pidList);
@@ -118,8 +132,9 @@ public class OrderServiceImpl implements OrderService{
         }
 
         Integer oid = Common.getOrderId();// 商品ID
+        Date currentDate = new Date();
         // 往订单表中写入数据
-        Integer tempResultToOrder = orderMapper.submitOrder(uid, oid, aid, totalPrice, meta, name);
+        Integer tempResultToOrder = orderMapper.submitOrder(uid, oid, aid, totalPrice, meta, currentDate, name);
         if(tempResultToOrder != 1){
             System.out.println("order");
             return -1;  //数据库写入失败
@@ -137,7 +152,7 @@ public class OrderServiceImpl implements OrderService{
         }
 
         // 代码执行到这里，就是往数据库里成功插入了订单信息。
-        redisTool.orderToQueue(uid, oid, Integer.valueOf(Common.timeStamp()));
+        redisTool.orderToQueue(uid, oid, currentDate);
         return oid;
     }
 

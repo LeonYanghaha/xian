@@ -28,14 +28,14 @@ public class CheckOrder {
 
     @Async
     @Scheduled(fixedDelay = 1000*30)  //间隔30秒
-    public void chckOrder() throws InterruptedException {
-
+    public void chckOrder() {
+        logger.info("job---check---order");
         Integer currentTime = Integer.valueOf(Common.timeStamp());
         ListOperations listOperations = redisTemplate.opsForList();
         Map<String, Integer> tempMap = (Map<String, Integer>) listOperations.rightPop(Common.getOrderQueueKey());
         if (null != tempMap) {
             // 拿到订单后，需要先判断是否超时。如果没超时，继续放入
-            if((currentTime- tempMap.get("time")) <= 30*2) {
+            if((currentTime- tempMap.get("time")) <= 60*30) { // 超时时间， 单位是秒， 目前设置为三十分钟
                  // 时间未到的
                 listOperations.rightPush(Common.getOrderQueueKey(),tempMap);
             }else{

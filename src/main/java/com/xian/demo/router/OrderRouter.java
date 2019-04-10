@@ -142,7 +142,7 @@ public class OrderRouter {
                               @Param("oid") Integer oid){
         // 删除订单时，只能删除已完成的订单 用户主动取消的未支付订单
         User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
-        Integer tempResult = orderService.recivedOrder(oid , user.getId());
+        Integer tempResult = orderService.removeOrder(oid , user.getId());
         if(tempResult == 1){
             return Result.ok("success");
         }else{
