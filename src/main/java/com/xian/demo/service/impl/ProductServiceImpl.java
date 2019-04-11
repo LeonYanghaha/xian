@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
         Page page = new Page();
         page.setAllProp(pageShowNumber, currentPage, count);
         List<Product> productList = productMapper.findProductByType(type , page.getStartIndex(), page.getEndIndex());
-        if(productList.size()<=0){
+        if (productList.size() <= 0) {
             return null;
         }else{
             page.setData(productList);
@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
     }
     public Page findAll(Integer pageShowNumber, Integer currentPage){
 
-        logger.warn("cache miss--"+ Thread.currentThread().getStackTrace()[1].getMethodName() + Common.getUserDate("yyyy-mm-dd  HH:mm:ss"));
+        logger.warn("cache miss--" + Thread.currentThread().getStackTrace()[1].getMethodName() + Common.getUserDate("yyyy-mm-dd  HH:mm:ss"));
 
         Integer count = productMapper.countProduct();
         if (count == 0) {
@@ -61,9 +61,9 @@ public class ProductServiceImpl implements ProductService {
         Page page = new Page();
         page.setAllProp(pageShowNumber, currentPage, count);
         List<Product> productList = productMapper.findAll(page.getStartIndex(), page.getEndIndex());
-        if(productList.size()<=0){
+        if (productList.size() <= 0) {
             return null;
-        }else{
+        } else {
             page.setData(productList);
             return page;
         }
