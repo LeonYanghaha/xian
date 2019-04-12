@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "product/")
@@ -21,9 +23,14 @@ public class ProductRouter {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    @RequestMapping("test")
-    public Result test(){
-        return Result.ok("ui");
+    @RequestMapping("getHotProduct")
+    public Result getHotProduct(@RequestParam(value = "size", defaultValue = "5") Integer size){
+        List<Product> listHotProduct = productService.getHotProduct(size);
+        List<String> stringList = new ArrayList<>();
+        for (int i=0;i< listHotProduct.size();i++) {
+            stringList.add(listHotProduct.get(i).getName());
+        }
+        return Result.ok(stringList);
     }
 
     @Cacheable(value="product_all", key = "'-' + #p0 + '-' + #p1")

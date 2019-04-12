@@ -12,10 +12,9 @@ public interface ProductService {
 //    获取商品的库存
     List<Product> getProductStock(List<Integer> pidList);
 
-//    Integer saveProduct(Product product);
-
     Page findAll(Integer pageShowNumber, Integer currentPage);
     Product findProductById(Integer id);
     Page findProductByType(Integer type , Integer pageShowNumber, Integer currentPage);
+    List<Product> getHotProduct(Integer size);
 
 }
