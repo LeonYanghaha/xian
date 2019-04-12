@@ -6,12 +6,38 @@ import com.xian.demo.entity.ProductImg;
 import com.xian.demo.entity.ProductType;
 import org.apache.ibatis.annotations.*;
 import java.util.List;
-
+import java.util.Date;
 @Mapper
 public interface ProductMapper {
 
+    @Select(value = "SELECT * " +
+                    " FROM PRODUCT " +
+                    " WHERE pid = #{pid} " +
+                    " LIMIT 1" )
+    Product getProductById(@Param("pid") Integer pid);
+
+
     /**
-     * @describe 校验pid 是否有效
+     * 获取指定时间段内更新的商品ID
+     */
+    @Select("SELECT pid " +
+            "FROM xian.PRODUCT " +
+            "WHERE lastUpdateTime >= #{startTime} and lastUpdateTime <= #{endTime} " +
+            "ORDER BY PRODUCT.lastUpdateTime DESC ")
+    List<Integer> getProductIdByUpdateTime(@Param("startTime") Date startTime,
+                                           @Param("endTime") Date endTime);
+
+    /**
+     * 获取商品表中最后修改的时间
+     */
+    @Select("SELECT lastUpdateTime " +
+            "FROM xian.PRODUCT " +
+            "ORDER BY lastUpdateTime DESC " +
+            "LIMIT 0,1 ")
+    Date getProductLastUpdateTime();
+
+    /**
+     * 校验pid 是否有效
      */
     @Select("SELECT COUNT(0) " +
             "FROM xian.PRODUCT " +
@@ -20,20 +46,16 @@ public interface ProductMapper {
 
 
     /**
-     * @describe  设置商品的库存和销量
-     * @param {String}
-     * @return {String}
+     *  设置商品的库存和销量
      */
     @Update(value = "UPDATE xian.PRODUCT " +
                     "SET stock = stock - #{number}, sellNumber = sellNumber + #{number} " +
-                    "WHERE pid = #{pid} ")
+                    "WHERE pid = #{pid} AND lastUpdateTime = NOW() ")
     Integer setProductStockAndSellNumber(@Param("pid") Integer pid,
                                          @Param("number") Integer number);
 
     /**
-     * @describe 获取商品的库存
-     * @param {List<Integer>} pid
-     * @return {Product}
+     *  获取商品的库存
      */
     @Select(value = "<script>" +
                     "SELECT pid, price, stock FROM PRODUCT " +
@@ -46,10 +68,7 @@ public interface ProductMapper {
 
 
     /**
-     * @describe 获取商品列表
-     * @param {Integer} startNo
-     * @param {Integer} pageSize
-     * @return {List<Product>}
+     * 获取商品列表
      */
     @Select(value = "SELECT pid, pid AS PPID, price, name, `desc`, stock, `ptype`, isRecommend, status, pushTime, cid, sellNumber, imgUrl " +
                     "FROM PRODUCT " +
@@ -70,9 +89,7 @@ public interface ProductMapper {
                           @Param("pageSize") Integer pageSize);
 
     /**
-     * @describe  通过ID查询商品
-     * @param {Integer} id
-     * @return {Product} Product
+     *  通过ID查询商品
      */
     @Select(value = " SELECT pid, pid AS PPID, price, name, `desc`, stock, `ptype`, isRecommend, status, pushTime, cid, sellNumber, imgUrl " +
                     " FROM PRODUCT " +
@@ -93,11 +110,7 @@ public interface ProductMapper {
 
 
     /**
-     * @describe 通过类型查询商品
-     * @param {Integer} type
-     * @param {Integer} startNo
-     * @param {Integer} pageSize
-     * @return {List<Product>} List<Product>
+     *  通过类型查询商品
      */
     @Select(value = "SELECT pid, pid AS PPID, price, name, `desc`, stock, PTYPE, isRecommend, status, pushTime, CID, sellNumber, imgUrl " +
                     "FROM PRODUCT " +
@@ -119,8 +132,10 @@ public interface ProductMapper {
                                     @Param("startNo") Integer startNo,
                                     @Param("pageSize") Integer pageSize);
 
-//    type , pageShowNumber, currentPage
 
+    /**
+     * 统计商品总数
+     */
     @Select("select count(0) from XIAN.PRODUCT where status = 0")
     Integer countProduct();
 

@@ -28,7 +28,7 @@ public class CarRouter {
         Integer tempFlag = carService.addItemToCar(user.getId(), pid);
         if(tempFlag == 1){
             return Result.ok("success",null);
-        }else{
+        } else {
             return Result.errorMsg("添加失败");
         }
     }

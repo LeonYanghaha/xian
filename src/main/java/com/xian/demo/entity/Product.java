@@ -1,4 +1,8 @@
 package com.xian.demo.entity;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -8,22 +12,73 @@ import java.util.List;
  * @param {String}
  * @return {String}
  */
+@Document(indexName = "xian",type = "Product", shards = 3,replicas = 0, refreshInterval = "-1")
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
     private Integer pid;
+    @Field
     private Double price;
+    @Field
     private String name;
+    @Field
     private String desc;
+    @Field
     private Integer stock;
+    @Field
     private ProductType productType;
+    @Field
     private Short status;
+    @Field
     private Boolean isRecommend;
+    @Field
     private Date pushTime;
+    @Field
+    private Date lastUpdateTime; // 添加最后修改时间，用于es同步数据
+    @Field
     private Create create;
+    @Field
     private Integer sellNumber;
+//    @Field
     private List<ProductImg> productImgList;
+
+    public Product(Double price, String name, String desc,
+                   Short status, Boolean isRecommend,
+                   Date pushTime, Date lastUpdateTime) {
+//        this.pid = pid;
+        this.price = price;
+        this.name = name;
+        this.desc = desc;
+//        this.stock = stock;
+        this.status = status;
+        this.isRecommend = isRecommend;
+        this.pushTime = pushTime;
+        this.lastUpdateTime = lastUpdateTime;
+//        this.sellNumber = sellNumber;
+    }
+    public Product(Integer pid, Double price, String name, String desc,
+                   Integer stock, ProductType productType, Short status,
+                   Boolean isRecommend, Date pushTime, Date lastUpdateTime,
+                   Create create, Integer sellNumber, List<ProductImg> productImgList) {
+        this.pid = pid;
+        this.price = price;
+        this.name = name;
+        this.desc = desc;
+        this.stock = stock;
+        this.productType = productType;
+        this.status = status;
+        this.isRecommend = isRecommend;
+        this.pushTime = pushTime;
+        this.lastUpdateTime = lastUpdateTime;
+        this.create = create;
+        this.sellNumber = sellNumber;
+        this.productImgList = productImgList;
+    }
+
+    public Product() {
+    }
 
     @Override
     public String toString() {
@@ -37,30 +92,15 @@ public class Product implements Serializable {
                 ", status=" + status +
                 ", isRecommend=" + isRecommend +
                 ", pushTime=" + pushTime +
+                ", lastUpdateTime=" + lastUpdateTime +
                 ", create=" + create +
                 ", sellNumber=" + sellNumber +
                 ", productImgList=" + productImgList +
                 '}';
     }
 
-    public Product() {
-    }
-
-    public Product(Integer pid, Double price, String name, String desc, Integer stock,
-                   ProductType productType, Short status, Boolean isRecommend, Date pushTime,
-                   Create create, Integer sellNumber, List<ProductImg> productImgList) {
-        this.pid = pid;
-        this.price = price;
-        this.name = name;
-        this.desc = desc;
-        this.stock = stock;
-        this.productType = productType;
-        this.status = status;
-        this.isRecommend = isRecommend;
-        this.pushTime = pushTime;
-        this.create = create;
-        this.sellNumber = sellNumber;
-        this.productImgList = productImgList;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Integer getPid() {
@@ -133,6 +173,14 @@ public class Product implements Serializable {
 
     public void setPushTime(Date pushTime) {
         this.pushTime = pushTime;
+    }
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Date lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
     }
 
     public Create getCreate() {

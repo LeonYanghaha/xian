@@ -21,10 +21,15 @@ public class ProductRouter {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    @Cacheable(value="product_all", key = "'-'+ #p0+'-'+#p1")
+    @RequestMapping("test")
+    public Result test(){
+        return Result.ok("ui");
+    }
+
+    @Cacheable(value="product_all", key = "'-' + #p0 + '-' + #p1")
     @RequestMapping(value = "findAll",method = RequestMethod.POST)
     public Result findAll(@RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
-                          @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage){
+                          @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage) {
 
         pageShowNumber = Common.checkParam(pageShowNumber, 10);
         currentPage = Common.checkParam(currentPage, 1);
@@ -38,24 +43,24 @@ public class ProductRouter {
 
     }
 
-    @Cacheable(value="findByType", key = "'-'+ #p1+'-'+#p2")
+    @Cacheable(value="findByType", key = "'-' + #p1 + '-' + #p2")
     @RequestMapping(value = "findByType",method = RequestMethod.POST)
     public Result findProductByType(@Param(value = "type") Integer type,
                                     @RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
-                                    @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage){
+                                    @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage) {
 
         pageShowNumber = Common.checkParam(pageShowNumber, 10);
         currentPage = Common.checkParam(currentPage, 1);
 
         Page page  = productService.findProductByType(type, pageShowNumber, currentPage);
-        if (null == page){ // 没有查到对应的商品
+        if (null == page) { // 没有查到对应的商品
             return Result.errorMsg("没有对应的商品");
         }else{
             return Result.ok(page);
         }
     }
     //TODO 2019/4/8 10:47 AM  指定缓存的时效
-    @Cacheable(value="findProductById", key = "'-'+ #p0")
+    @Cacheable(value="findProductById", key = "'-' + #p0")
     @RequestMapping(value = "findById/{id}",method = RequestMethod.GET)
     public Result findProductById(@PathVariable(value = "id") Integer id) {
 

@@ -31,9 +31,9 @@ public class AddressRouter {
         User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
 
         Page page = addressService.getAddressList(user.getId(), pageShowNumber, currentPage);
-        if(null == page){
+        if(null == page) {
             return Result.ok("none");
-        }else{
+        } else {
             return Result.ok(page);
         }
     }
@@ -45,7 +45,7 @@ public class AddressRouter {
         address.setUid(user.getId());
         Integer tempTag = addressService.saveAddress(address);
 
-        if((tempTag).equals(1)){
+        if((tempTag).equals(1)) {
             return Result.ok(null);
         }else{
             return Result.errorMsg("未知错误");
@@ -58,9 +58,9 @@ public class AddressRouter {
         User user = (User) httpServletRequest.getAttribute(Common.getReqUserKey());
         Integer tempFlag = addressService.removeAddress(aid, user.getId());
 
-        if(tempFlag == 1){
+        if(tempFlag == 1) {
             return Result.ok("删除成功");
-        }else if(tempFlag ==0){
+        }else if(tempFlag == 0) {
             return Result.errorMsg("删除失败");
         }else{
             return Result.errorMsg("未知错误");

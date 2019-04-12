@@ -5,7 +5,6 @@ spring:
       additional-paths: src/main/java
       exclude: com
   datasource:
-    #shujuyuan
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 123456qQ
@@ -23,7 +22,14 @@ spring:
         max-active: 8
         max-wait: -1ms
         max-idle: 8
+  data:
+    elasticsearch:
+      cluster-name: yanghaha
+      cluster-nodes: 127.0.0.1:9300
+      repositories:
+        enabled: true
 #jiazai mybatis peizhiwenjian
+
 #mybatis:
 #  mapperas-locations: classpath:mapperas/*Mapper.xml
 #  config-location: classpath:mapperas/config/sqlMapConfig.xml
