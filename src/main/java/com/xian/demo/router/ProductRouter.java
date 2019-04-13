@@ -12,7 +12,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "product/")
@@ -23,12 +26,29 @@ public class ProductRouter {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @RequestMapping("search")
+    public Result searchProductByKeyWord(@RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
+                                         @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                                         @RequestParam(value = "keyWord", required = false) String keyWord) {
+        pageShowNumber = Common.checkParam(pageShowNumber, 10);
+        currentPage = Common.checkParam(currentPage, 1);
+
+        Page page  = productService.findProductByType(210000, pageShowNumber, currentPage);
+        if (null == page) { // 没有查到对应的商品
+            return Result.errorMsg("没有对应的商品");
+        }else{
+            return Result.ok(page);
+        }
+    }
+
     @RequestMapping("getHotProduct")
     public Result getHotProduct(@RequestParam(value = "size", defaultValue = "5") Integer size){
         List<Product> listHotProduct = productService.getHotProduct(size);
-        List<String> stringList = new ArrayList<>();
+        List<Map<String, String>> stringList = new ArrayList<>();
         for (int i=0;i< listHotProduct.size();i++) {
-            stringList.add(listHotProduct.get(i).getName());
+            Map<String, String> stringMap = new HashMap<>();
+            stringMap.put("value", listHotProduct.get(i).getName());
+            stringList.add(stringMap);
         }
         return Result.ok(stringList);
     }
