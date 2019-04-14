@@ -9,6 +9,7 @@ import com.xian.demo.util.Common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -16,13 +17,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Date;
+
 @Component
 @EnableScheduling   // 开启定时任务
 @EnableAsync        // 开启多线程
@@ -39,6 +40,8 @@ public class Task {
     private ProductMapper productMapper;
     // 这个时间的来源是 1.项目启动时，由ES查出来的，  2.有系统每次更新，记录下数据表中的最后修改时间
     private Date lastModfiyTime = null;
+    @Autowired
+    private ElasticsearchTemplate elasticsearchTemplate;
 
     /**
      * @describe  每隔一分钟去定时执行，同步数据库中的数据到ES
@@ -49,6 +52,7 @@ public class Task {
 
         logger.info("job----sync----product----to -----es");
         if (this.getLastModfiyTime() == null) { // 说明是项目启动第一次执行的情况
+            elasticsearchTemplate.deleteIndex(Product.class);
             SimpleDateFormat sdfd = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
             Date defaultTime = null;
             try {
@@ -70,22 +74,20 @@ public class Task {
         }
 
         // 将查询到的商品同步到ES中
-        for (int i = 0; i<pidList.size(); i++) {
-            Integer pid = pidList.get(i);
-            Product product = productMapper.getProductById(pid);
-            System.out.println(product.toString());
-            // productEsMapper.save(product);
-            productEsMapper.save(new Product(product.getPrice(), product.getName(), product.getDesc(),
-                    product.getStatus(), product.getRecommend(), product.getPushTime(),
-                    product.getLastUpdateTime()));
+        for (Integer pid : pidList) {
+
+            Product product = productMapper.findProductById(pid);
+            productEsMapper.save(new Product(product.getPrice(), product.getName(), product.getDesc(), product.getPid()+"",
+                    product.getStatus(), product.getRecommend(), product.getProductImgList(), product.getPushTime(),
+                    product.getLastUpdateTime(), product.getSellNumber(), product.getCreate(), product.getProductType()));
         }
     }
-
 
     /**
      * @description  每隔30秒定时执行
      * 去扫描没有及时支付的订单，并在30分钟后定时关闭改订单
      */
+    //TODO 2019/4/14 12:06 PM  这里每次只拿一个数据，效率是有很大的提升空间的 。抽时间优化
     @Async
     @Scheduled(fixedDelay = 1000*30)  //间隔30秒
     public void checkOrder () {

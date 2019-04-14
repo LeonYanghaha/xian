@@ -94,4 +94,16 @@ public class Page implements Serializable {
     public void setData(Object data) {
         this.data = data;
     }
+    
+    public void setTotalPage(Integer totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public void setStartIndex(Integer startIndex) {
+        this.startIndex = startIndex;
+    }
+
+    public void setEndIndex(Integer endIndex) {
+        this.endIndex = endIndex;
+    }
 }

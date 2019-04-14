@@ -1,20 +1,15 @@
 package com.xian.demo.router;
 
-import com.xian.demo.entity.Page;
-import com.xian.demo.entity.Product;
-import com.xian.demo.entity.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+import com.xian.demo.dao.ProductEsMapper;
+import com.xian.demo.entity.*;
 import com.xian.demo.service.ProductService;
 import com.xian.demo.util.Common;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -25,15 +20,16 @@ public class ProductRouter {
     private ProductService productService;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private ProductEsMapper productEsMapper;
 
-    @RequestMapping("search")
+    @RequestMapping("search/{kw}")
     public Result searchProductByKeyWord(@RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
-                                         @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-                                         @RequestParam(value = "keyWord", required = false) String keyWord) {
+                                         @RequestParam(value = "currentPage", defaultValue = "0") Integer currentPage,
+                                         @PathVariable(value = "kw") String keyWord) {
         pageShowNumber = Common.checkParam(pageShowNumber, 10);
-        currentPage = Common.checkParam(currentPage, 1);
-
-        Page page  = productService.findProductByType(210000, pageShowNumber, currentPage);
+        currentPage = Common.checkParam(currentPage, 0);
+        Page page  = productService.searchProductByKeyWord(keyWord, pageShowNumber, currentPage);
         if (null == page) { // 没有查到对应的商品
             return Result.errorMsg("没有对应的商品");
         }else{
@@ -41,16 +37,13 @@ public class ProductRouter {
         }
     }
 
+    /**
+     * @describe 搜索框下拉的提示列表，筛选销量最多的前十条数据
+     */
     @RequestMapping("getHotProduct")
-    public Result getHotProduct(@RequestParam(value = "size", defaultValue = "5") Integer size){
-        List<Product> listHotProduct = productService.getHotProduct(size);
-        List<Map<String, String>> stringList = new ArrayList<>();
-        for (int i=0;i< listHotProduct.size();i++) {
-            Map<String, String> stringMap = new HashMap<>();
-            stringMap.put("value", listHotProduct.get(i).getName());
-            stringList.add(stringMap);
-        }
-        return Result.ok(stringList);
+    public Result getHotProduct(@RequestParam(value = "size", defaultValue = "10") Integer size){
+
+          return Result.ok(productService.getHotProduct(size));
     }
 
     @Cacheable(value="product_all", key = "'-' + #p0 + '-' + #p1")
@@ -61,7 +54,7 @@ public class ProductRouter {
         pageShowNumber = Common.checkParam(pageShowNumber, 10);
         currentPage = Common.checkParam(currentPage, 1);
 
-        Page page = productService.findAll(pageShowNumber, currentPage);
+        com.xian.demo.entity.Page page = productService.findAll(pageShowNumber, currentPage);
         if (null == page)  {
             return Result.errorMsg("暂无商品");
         }else{
@@ -79,7 +72,7 @@ public class ProductRouter {
         pageShowNumber = Common.checkParam(pageShowNumber, 10);
         currentPage = Common.checkParam(currentPage, 1);
 
-        Page page  = productService.findProductByType(type, pageShowNumber, currentPage);
+        com.xian.demo.entity.Page page  = productService.findProductByType(type, pageShowNumber, currentPage);
         if (null == page) { // 没有查到对应的商品
             return Result.errorMsg("没有对应的商品");
         }else{

@@ -10,11 +10,11 @@ import java.util.Date;
 @Mapper
 public interface ProductMapper {
 
-    @Select(value = "SELECT * " +
-                    " FROM PRODUCT " +
-                    " WHERE pid = #{pid} " +
-                    " LIMIT 1" )
-    Product getProductById(@Param("pid") Integer pid);
+//    @Select(value = "SELECT * " +
+//                    " FROM PRODUCT " +
+//                    " WHERE pid = #{pid} " +
+//                    " LIMIT 1" )
+//    Product getProductById(@Param("pid") Integer pid);
 
 
     /**

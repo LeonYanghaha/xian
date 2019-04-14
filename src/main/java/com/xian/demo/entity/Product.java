@@ -1,7 +1,7 @@
 package com.xian.demo.entity;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +12,10 @@ import java.util.List;
  * @param {String}
  * @return {String}
  */
+// indexName索引名称 可以理解为数据库名 必须为小写 不然会报org.elasticsearch.indices.InvalidIndexNameException异常
+// type类型 可以理解为表名
+//  shards：分片数量，默认5
+// replicas：副本数量，默认1
 @Document(indexName = "xian",type = "Product", shards = 3,replicas = 0, refreshInterval = "-1")
 public class Product implements Serializable {
 
@@ -19,44 +23,37 @@ public class Product implements Serializable {
 
     @Id
     private Integer pid;
-    @Field
+
+    private String strPid;
     private Double price;
-    @Field
     private String name;
-    @Field
     private String desc;
-    @Field
     private Integer stock;
-    @Field
     private ProductType productType;
-    @Field
     private Short status;
-    @Field
     private Boolean isRecommend;
-    @Field
     private Date pushTime;
-    @Field
     private Date lastUpdateTime; // 添加最后修改时间，用于es同步数据
-    @Field
     private Create create;
-    @Field
     private Integer sellNumber;
-//    @Field
     private List<ProductImg> productImgList;
 
-    public Product(Double price, String name, String desc,
-                   Short status, Boolean isRecommend,
-                   Date pushTime, Date lastUpdateTime) {
-//        this.pid = pid;
+    public Product(Double price, String name, String desc, String strPid,
+                   Short status, Boolean isRecommend,List<ProductImg> productImgList,
+                   Date pushTime, Date lastUpdateTime, Integer sellNumber, Create create, ProductType productType) {
+        this.strPid = strPid;
         this.price = price;
         this.name = name;
         this.desc = desc;
+        this.create = create;
 //        this.stock = stock;
         this.status = status;
         this.isRecommend = isRecommend;
+        this.productImgList = productImgList;
         this.pushTime = pushTime;
         this.lastUpdateTime = lastUpdateTime;
-//        this.sellNumber = sellNumber;
+        this.sellNumber = sellNumber;
+        this.productType = productType;
     }
     public Product(Integer pid, Double price, String name, String desc,
                    Integer stock, ProductType productType, Short status,
@@ -205,5 +202,13 @@ public class Product implements Serializable {
 
     public void setProductImgList(List<ProductImg> productImgList) {
         this.productImgList = productImgList;
+    }
+
+    public String getStrPid() {
+        return strPid;
+    }
+
+    public void setStrPid(String strPid) {
+        this.strPid = strPid;
     }
 }

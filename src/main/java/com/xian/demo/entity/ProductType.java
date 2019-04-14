@@ -1,6 +1,5 @@
 package com.xian.demo.entity;
 
-
 import java.io.Serializable;
 
 public class ProductType implements Serializable {

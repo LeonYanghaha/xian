@@ -1,6 +1,6 @@
 package com.xian.demo.util;
-import org.springframework.stereotype.Component;
 
+import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.Date;
@@ -11,6 +11,7 @@ public class Common {
     private static final String reqUserKey = "currentUser";
     private static final String reqHeadKey = "token";
     private static final String orderQueueKey = "current_order";
+    private static final Integer pageSize = 16;
 
     public static Integer checkParam(Integer val, Integer defauleVal){
         if(val<1){
@@ -81,5 +82,9 @@ public class Common {
 
     public static String getReqHeadKey() {
         return reqHeadKey;
+    }
+
+    public static Integer getPageSize() {
+        return pageSize;
     }
 }

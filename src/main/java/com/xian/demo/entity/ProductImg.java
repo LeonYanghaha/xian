@@ -1,12 +1,21 @@
 package com.xian.demo.entity;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import java.io.Serializable;
 
+@Document(indexName = "xian",type = "ProductImg")
 public class ProductImg implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Id
     private Integer iid;
+    @Field(type = FieldType.Integer)
     private Integer pid;
+    @Field(type = FieldType.Text)
     private String name;
 
     public ProductImg() {
