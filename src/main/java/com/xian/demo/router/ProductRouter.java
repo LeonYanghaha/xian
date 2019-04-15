@@ -22,13 +22,21 @@ public class ProductRouter {
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private ProductEsMapper productEsMapper;
+    /**
+     * @describe 获取特价商品，通过价格排序
+     */
+    @RequestMapping("price")
+    public Result searchProductByPrice(@RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
+                                    @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage){
+        Page page  = productService.searchProductByPrice(pageShowNumber, currentPage);
+        return Result.ok(page);
+    }
 
     @RequestMapping("search/{kw}")
     public Result searchProductByKeyWord(@RequestParam(value = "pageShowNumber", defaultValue = "10") Integer pageShowNumber,
-                                         @RequestParam(value = "currentPage", defaultValue = "0") Integer currentPage,
+                                         @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
                                          @PathVariable(value = "kw") String keyWord) {
-        pageShowNumber = Common.checkParam(pageShowNumber, 10);
-        currentPage = Common.checkParam(currentPage, 0);
+
         Page page  = productService.searchProductByKeyWord(keyWord, pageShowNumber, currentPage);
         if (null == page) { // 没有查到对应的商品
             return Result.errorMsg("没有对应的商品");
@@ -42,7 +50,6 @@ public class ProductRouter {
      */
     @RequestMapping("getHotProduct")
     public Result getHotProduct(@RequestParam(value = "size", defaultValue = "10") Integer size){
-
           return Result.ok(productService.getHotProduct(size));
     }
 

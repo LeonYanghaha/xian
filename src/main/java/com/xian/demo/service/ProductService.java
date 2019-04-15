@@ -15,6 +15,8 @@ public interface ProductService {
 
     Page searchProductByKeyWord(String keyWord, Integer pageShowNumber, Integer currentPage);
 
+    Page searchProductByPrice(Integer pageShowNumber, Integer currentPage);
+
     Page findAll(Integer pageShowNumber, Integer currentPage);
 
     Product findProductById(Integer id);

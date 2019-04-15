@@ -26,22 +26,22 @@ public class PageRouter {
                             imgMap3= new HashMap<>(),imgMap4 = new HashMap<>();
 
         imgMap1.put("name", "name");
-        imgMap1.put("url", "name");
+        imgMap1.put("url", "/slide/slide_1.jpg");
         imgMap1.put("desc", "name");
         imgMap1.put("src", "name");
 
         imgMap2.put("name", "name");
-        imgMap2.put("url", "name");
+        imgMap2.put("url", "/slide/slide_2.jpg");
         imgMap2.put("desc", "name");
         imgMap2.put("src", "name");
 
         imgMap3.put("name", "name");
-        imgMap3.put("url", "name");
+        imgMap3.put("url", "/slide/slide_3.jpg");
         imgMap3.put("desc", "name");
         imgMap3.put("src", "name");
 
         imgMap4.put("name", "name");
-        imgMap4.put("url", "name");
+        imgMap4.put("url", "/slide/slide_4.jpg");
         imgMap4.put("desc", "name");
         imgMap4.put("src", "name");
 

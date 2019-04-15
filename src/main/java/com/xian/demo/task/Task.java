@@ -112,11 +112,11 @@ public class Task {
 
     }
 
-    public Date getLastModfiyTime() {
+   private Date getLastModfiyTime() {
         return lastModfiyTime;
     }
 
-    public void setLastModfiyTime(Date lastModfiyTime) {
+   private void setLastModfiyTime(Date lastModfiyTime) {
         this.lastModfiyTime = lastModfiyTime;
     }
 }
