@@ -3,9 +3,11 @@ package com.xian.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.annotation.PostConstruct;
 
+@EnableSwagger2
 @SpringBootApplication
 public class XianApplication {
 

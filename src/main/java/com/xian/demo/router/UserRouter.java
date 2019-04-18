@@ -6,6 +6,7 @@ import com.xian.demo.service.UserService;
 import com.xian.demo.service.impl.ProductServiceImpl;
 import com.xian.demo.util.Common;
 import com.xian.demo.util.JWTTool;
+import io.swagger.annotations.*;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import java.util.Date;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("user/")
+@Api("用户操作相关的路由。以/user 开始")
 public class UserRouter {
 
     @Autowired
@@ -29,6 +31,15 @@ public class UserRouter {
     private Common common;
     private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
+    @ApiOperation("获取用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="header",name="username",dataType="String",required=true,value="用户的姓名",defaultValue="zhaojigang"),
+            @ApiImplicitParam(paramType="query",name="password",dataType="String",required=true,value="用户的密码",defaultValue="wangna")
+    })
+    @ApiResponses({
+            @ApiResponse(code=400,message="请求参数没填好"),
+            @ApiResponse(code=404,message="请求路径没有或页面跳转路径不对")
+    })
     @RequestMapping(value = "changeHeadImage",method = RequestMethod.POST)
     public Result changeHeadImage(HttpServletRequest request){
         return  Result.ok("ok");
